@@ -1,0 +1,172 @@
+{
+  "plugins": ["@typescript-eslint", "jest", "promise", "unicorn", "import"],
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "tsconfigRootDir": "./"
+  },
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "eslint:recommended",
+    "eslint-config-airbnb-base",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:import/typescript"
+  ],
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": {
+        "alwaysTryTypes": true,
+        "project": "packages/*/tsconfig.json"
+      }
+    }
+  },
+  "rules": {
+    "import/prefer-default-export": "off",
+    "class-methods-use-this": "off",
+    "import/no-unresolved": "off",
+    "no-unused-vars": "off",
+    "no-unused-expressions": "off",
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "unicorn/no-useless-undefined": "off",
+    "unicorn/numeric-separators-style": "off",
+    "unicorn/no-array-reduce": "off",
+    "unicorn/prefer-object-from-entries": "off",
+    "unicorn/no-array-for-each": "off",
+    "unicorn/no-static-only-class": "off",
+    "unicorn/prefer-node-protocol": "off",
+    "unicorn/prevent-abbreviations": "off",
+    "unicorn/prefer-includes": "off",
+    "unicorn/consistent-function-scoping": "off",
+    "object-curly-newline": "off",
+    "@typescript-eslint/unbound-method": [
+      "error",
+      {
+        "ignoreStatic": true
+      }
+    ],
+    "consistent-return": "off",
+    "default-case": "off",
+    "@typescript-eslint/switch-exhaustiveness-check": "error",
+    "object-curly-spacing": ["warn", "always"],
+    "no-multi-spaces": "warn",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
+    "@typescript-eslint/interface-name-prefix": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/ban-types": "off",
+    "@typescript-eslint/class-name-casing": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/triple-slash-reference": "off",
+    "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/type-annotation-spacing": ["warn", { "before": true, "after": true, "overrides": { "colon": { "before": false, "after": true }} }],
+    "@typescript-eslint/indent": ["warn", 2, { "SwitchCase": 1 }],
+    "@typescript-eslint/semi": ["warn", "never"],
+    "@typescript-eslint/member-delimiter-style": [
+      1,
+      {
+        "multiline": {
+          "delimiter": "none",
+          "requireLast": false
+        },
+        "singleline": {
+          "delimiter": "semi",
+          "requireLast": false
+        }
+      }
+    ],
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "no-empty": "off",
+    "no-shadow": "off",
+    "require-atomic-updates": "off",
+    "lines-between-class-members": ["warn", "always"],
+    "no-multiple-empty-lines": ["warn", { "max": 1, "maxEOF": 0}],
+    "block-spacing": "warn",
+    "space-infix-ops": "warn",
+    "comma-spacing": ["warn", { "before": false, "after": true }],
+    "no-useless-escape": "off",
+    "prefer-spread": "off",
+    "comma-dangle": ["error", "always-multiline"],
+    "max-len": ["error", { "code": 200, "ignoreTemplateLiterals": true }],
+    "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+    "array-bracket-spacing": [
+      "error",
+      "always",
+      {
+        "arraysInArrays": false,
+        "objectsInArrays": false
+      }
+    ],
+    "no-case-declarations": "off",
+    "keyword-spacing": "warn",
+    "space-before-blocks": "warn",
+    "no-trailing-spaces": "warn",
+    "key-spacing": "warn",
+    "padding-line-between-statements": ["warn", { "blankLine": "never", "prev": "import", "next": "import" }],
+    "prefer-template": "warn",
+    "object-shorthand": "warn",
+    "newline-before-return": "warn",
+    "indent": "off",
+    "no-mixed-spaces-and-tabs": "warn",
+    "padded-blocks": ["warn", "never"],
+    "arrow-spacing": "warn",
+    "semi": ["warn", "never"],
+    "unicorn/explicit-length-check": "off",
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
+    "no-useless-constructor": "off",
+    "no-empty-function": "off"
+  },
+  "overrides": [
+    {
+      "files": ["*"],
+      "rules": {
+        "@typescript-eslint/no-unused-expressions": ["error", { "allowShortCircuit": true }]
+      }
+    },
+    {
+      "files": ["**/*.mapper.ts"],
+      "rules": {
+        "no-case-declarations": "off"
+      }
+    },
+    {
+      "files": ["**/db/entities/*.entity.ts"],
+      "rules": {
+        // Typeorm ManyToOne requires circular imports
+        "import/no-cycle": "off"
+      }
+    },
+    {
+      "files": ["**/migrations/*.ts"],
+      "rules": {
+        "@typescript-eslint/naming-convention": "off"
+      }
+    },
+    {
+      "files": ["**/__mocks__/*"],
+      "rules": {
+        "unicorn/no-null": "off"
+      }
+    }
+  ]
+}
