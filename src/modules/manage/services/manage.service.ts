@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common'
-import { DataboxService } from '@vendors/databox/services/databox.service'
-import { Metric } from '@shared/interfaces/metric.interface'
-import { DbWritingService } from '@libs/db/services/db-writing.service'
-import { DbFetchingService } from '@libs/db/services/db-fetching.service'
-import { DbListingService } from '@libs/db/services/db-listing.service'
-import { RequestDataDB } from '@libs/db/entities/request-data-db.entity'
-import { ServiceProvider } from '@shared/enums/service-provider.enum'
+import { DataboxService } from '../../../vendors/databox/services/databox.service'
+import { DbListingService } from '../../../libs/db/services/db-listing.service'
+import { DbFetchingService } from '../../../libs/db/services/db-fetching.service'
+import { DbWritingService } from '../../../libs/db/services/db-writing.service'
+import { Metric } from '../../../shared/interfaces/metric.interface'
+import { ServiceProvider } from '../../../shared/enums/service-provider.enum'
+import { RequestDataDB } from '../../../libs/db/entities/request-data-db.entity'
 
 @Injectable()
 export class ManageService {

@@ -1,4 +1,4 @@
-import { ServiceProvider } from '@shared/enums/service-provider.enum'
+import { ServiceProvider } from '../../../shared/enums/service-provider.enum'
 
 export interface ListingFiltering {
   id?: string

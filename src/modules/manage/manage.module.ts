@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common'
-import { DataboxModule } from '@vendors/databox/databox.module'
-import { ManageController } from '@modules/manage/controllers/manage.controller'
-import { ManageService } from '@modules/manage/services/manage.service'
-import { DbModule } from '@libs/db/db.module'
+import { DbModule } from '../../libs/db/db.module'
+import { DataboxModule } from '../../vendors/databox/databox.module'
+import { ManageController } from './controllers/manage.controller'
+import { ManageService } from './services/manage.service'
 
 @Module({
   imports: [ DbModule, DataboxModule ],

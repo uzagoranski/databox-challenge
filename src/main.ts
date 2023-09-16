@@ -1,10 +1,10 @@
 import { ValidationPipe } from '@nestjs/common'
 import { ConfigService } from '@nestjs/config'
 import { NestFactory } from '@nestjs/core'
-import { ExecutionHelper } from '@shared/utils/helpers/execution.helper'
-import { SwaggerFactory } from '@docs/swagger/swagger.factory'
-import { AppConfig } from '@config/app.config'
 import { AppModule } from './app.module'
+import { AppConfig } from './config/app.config'
+import { SwaggerFactory } from './docs/swagger/swagger.factory'
+import { ExecutionHelper } from './shared/utils/helpers/execution.helper'
 
 async function bootstrap(): Promise<void> {
   const app = await NestFactory.create(AppModule)

@@ -2,11 +2,11 @@ import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository, SelectQueryBuilder } from 'typeorm'
 import { from, map, Observable } from 'rxjs'
-import { ServiceProvider } from '@shared/enums/service-provider.enum'
-import { RequestDataDB } from '@libs/db/entities/request-data-db.entity'
-import { ListingSorting } from '@libs/db/interfaces/listing-sorting.interface'
-import { ListingFiltering } from '@libs/db/interfaces/listing-filtering.interface'
-import { Pagination } from '@libs/db/interfaces/pagination.interface'
+import { RequestDataDB } from '../entities/request-data-db.entity'
+import { ListingSorting } from '../interfaces/listing-sorting.interface'
+import { ListingFiltering } from '../interfaces/listing-filtering.interface'
+import { Pagination } from '../interfaces/pagination.interface'
+import { ServiceProvider } from '../../../shared/enums/service-provider.enum'
 
 @Injectable()
 export class DbListingService {

@@ -1,7 +1,7 @@
 import { HttpModuleOptions } from '@nestjs/axios'
 import { Inject, Injectable } from '@nestjs/common'
-import databoxHttpConfig from '@vendors/databox/http/databox-http.config'
-import { DataboxHttpConfig } from '@vendors/databox/interfaces/databox-config.interface'
+import databoxHttpConfig from './databox-http.config'
+import { DataboxHttpConfig } from '../interfaces/databox-config.interface'
 
 @Injectable()
 export class DataboxRequestOptionsFactory {

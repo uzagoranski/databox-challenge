@@ -1,7 +1,7 @@
 import { INestApplication } from '@nestjs/common'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
-import { AppConfig } from '@config/app.config'
-import { SwaggerConfig } from '@config/swagger.config'
+import { AppConfig } from '../../config/app.config'
+import { SwaggerConfig } from '../../config/swagger.config'
 
 export class SwaggerFactory {
   static setupSwagger(app: INestApplication): void {

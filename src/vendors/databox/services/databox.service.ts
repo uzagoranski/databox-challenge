@@ -1,11 +1,11 @@
 import { HttpService } from '@nestjs/axios'
 import { Injectable, Logger } from '@nestjs/common'
 import { firstValueFrom } from 'rxjs'
-import { Metric } from '@shared/interfaces/metric.interface'
-import { DataboxMapper } from '@vendors/databox/mappers/databox.mapper'
-import { DataboxRequestPayload } from '@vendors/databox/interfaces/databox-request-payload.interface'
-import { DataboxRequestOptionsFactory } from '@vendors/databox/http/databox-request-options.factory'
-import { DataboxPushMultipleMetricsSuccessResponse } from '@vendors/databox/responses/databox-push-multiple-metrics-success.response'
+import { DataboxRequestOptionsFactory } from '../http/databox-request-options.factory'
+import { Metric } from '../../../shared/interfaces/metric.interface'
+import { DataboxPushMultipleMetricsSuccessResponse } from '../responses/databox-push-multiple-metrics-success.response'
+import { DataboxRequestPayload } from '../interfaces/databox-request-payload.interface'
+import { DataboxMapper } from '../mappers/databox.mapper'
 
 @Injectable()
 export class DataboxService {
@@ -15,7 +15,7 @@ export class DataboxService {
   ) {}
 
   /**
-   * Initialise authentication flow with tokenproof API, calling /simple endpoint and returning deeplink to tokenproof application
+   * Push multiple metrics to Databox API, calling / endpoint and returning response message with status
    */
   async pushMultipleMetrics(metrics: Metric[]): Promise<DataboxPushMultipleMetricsSuccessResponse> {
     const path = this.databoxRequestOptionsFactory.buildUrl()

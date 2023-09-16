@@ -18,13 +18,5 @@
     "strictBindCallApply": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    "paths": {
-      "@docs/*": ["src/docs/*"],
-      "@config/*": ["src/config/*"],
-      "@libs/*": ["src/libs/*"],
-      "@modules/*": ["src/modules/*"],
-      "@shared/*": ["src/shared/*"],
-      "@vendors/*": ["src/vendors/*"],
-    }
   }
 }

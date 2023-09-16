@@ -68,9 +68,10 @@ Here you can find the complete list of ENV variables that the Databox Challenge 
 | DATABOX_USER_AGENT        | User-agent header that will be sent along the requests when calling Databox Push API               |
 | DATABOX_ACCEPT_ENCODING   | Accept header that will be sent along the requests when calling Databox Push API                   |
 
-| Secret             | Description                                                       |
-|--------------------|-------------------------------------------------------------------|
-| DATABOX_PUSH_TOKEN | Push token expected to be able to connect to the Databox Push API |
+| Secret                    | Description                                                       |
+|---------------------------|-------------------------------------------------------------------|
+| SECRET_TYPEORM_PASSWORD   | Password with which TypeORM will be able to perform queries       |
+| SECRET_DATABOX_PUSH_TOKEN | Push token expected to be able to connect to the Databox Push API |
 
 
 Add your application configuration to your `.env` file in the root of your project by duplicating `.env-example` file:

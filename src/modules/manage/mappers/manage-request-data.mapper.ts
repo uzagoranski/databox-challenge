@@ -1,5 +1,5 @@
-import { RequestDataDB } from '@libs/db/entities/request-data-db.entity'
-import { ManageRequestDataResponse } from '@modules/manage/responses/manage-request-data.response'
+import { RequestDataDB } from '../../../libs/db/entities/request-data-db.entity'
+import { ManageRequestDataResponse } from '../responses/manage-request-data.response'
 
 export class ManageRequestDataMapper {
   static mapRequestDataDbToManageRequestDataResponse(requestData: RequestDataDB): ManageRequestDataResponse {

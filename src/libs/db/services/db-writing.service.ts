@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { RequestDataDB } from '@libs/db/entities/request-data-db.entity'
+import { RequestDataDB } from '../entities/request-data-db.entity'
 
 @Injectable()
 export class DbWritingService {

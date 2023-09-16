@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger'
-import { ServiceProvider } from '@shared/enums/service-provider.enum'
-import { Metric } from '@shared/interfaces/metric.interface'
+import { ServiceProvider } from '../../../shared/enums/service-provider.enum'
+import { Metric } from '../../../shared/interfaces/metric.interface'
 
 export class ManageRequestDataResponse {
   @ApiProperty({ example: '942cc87b-5a75-4824-828a-9712723e89d2', description: 'Request data database identifier' })

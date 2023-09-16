@@ -1,5 +1,5 @@
 import { ConfigService, registerAs } from '@nestjs/config'
-import { DataboxHttpConfig } from '@vendors/databox/interfaces/databox-config.interface'
+import { DataboxHttpConfig } from '../interfaces/databox-config.interface'
 
 const configService = new ConfigService()
 

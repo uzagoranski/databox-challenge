@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
-import { Pagination } from '@libs/db/interfaces/pagination.interface'
-import { ManageRequestDataResponse } from '@modules/manage/responses/manage-request-data.response'
+import { ManageRequestDataResponse } from './manage-request-data.response'
+import { Pagination } from '../../../libs/db/interfaces/pagination.interface'
 
 export class ListManageRequestDataResponse implements Pagination<ManageRequestDataResponse[]> {
   @ApiProperty({ type: [ ManageRequestDataResponse ], description: 'List of results' })

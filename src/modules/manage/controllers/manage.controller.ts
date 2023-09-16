@@ -1,7 +1,7 @@
 import { Controller, Get } from '@nestjs/common'
 import { ApiBadRequestResponse, ApiOperation, ApiTags } from '@nestjs/swagger'
-import { ManageService } from '@modules/manage/services/manage.service'
-import { ServiceProvider } from '@shared/enums/service-provider.enum'
+import { ManageService } from '../services/manage.service'
+import { ServiceProvider } from '../../../shared/enums/service-provider.enum'
 
 @ApiTags('Manage metrics')
 @Controller('manage/metrics')

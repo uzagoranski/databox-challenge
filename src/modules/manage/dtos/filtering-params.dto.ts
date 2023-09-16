@@ -1,8 +1,8 @@
 import { ApiPropertyOptional } from '@nestjs/swagger'
 import { IsBoolean, IsDateString, IsEnum, IsNumber, IsOptional, IsString } from 'class-validator'
 import { Transform } from 'class-transformer'
-import { ServiceProvider } from '@shared/enums/service-provider.enum'
-import { ListingFiltering } from '@libs/db/interfaces/listing-filtering.interface'
+import { ListingFiltering } from '../../../libs/db/interfaces/listing-filtering.interface'
+import { ServiceProvider } from '../../../shared/enums/service-provider.enum'
 
 export class FilteringParamsDto implements ListingFiltering {
   @ApiPropertyOptional({ example: '132d1983-9668-49ca-9737-82aeda63f89a', description: 'Token database identifier' })
