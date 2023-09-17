@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger'
 import { ManageRequestDataResponse } from './manage-request-data.response'
 import { Pagination } from '../../../libs/db/interfaces/pagination.interface'
+import { ManageRequestDataFilteringResponse } from './manage-request-data-filtering.response'
 
 export class ListManageRequestDataResponse implements Pagination<ManageRequestDataResponse[]> {
   @ApiProperty({ type: [ ManageRequestDataResponse ], description: 'List of results' })
@@ -15,6 +16,6 @@ export class ListManageRequestDataResponse implements Pagination<ManageRequestDa
   @ApiProperty({ example: 25, description: 'Total results' })
     total: number
 
-  // @ApiProperty({ type: [ ManageRequestDataFilteringResponse ], description: 'Filtering options' })
-  //   filtering: ManageRequestDataFilteringResponse[]
+  @ApiProperty({ type: [ ManageRequestDataFilteringResponse ], description: 'Filtering options' })
+    filtering: ManageRequestDataFilteringResponse[]
 }

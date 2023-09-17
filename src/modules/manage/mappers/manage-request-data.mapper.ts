@@ -1,5 +1,8 @@
 import { RequestDataDB } from '../../../libs/db/entities/request-data-db.entity'
 import { ManageRequestDataResponse } from '../responses/manage-request-data.response'
+import { ManageRequestDataFilteringResponse } from '../responses/manage-request-data-filtering.response'
+import { ListingFiltering } from '../../../libs/db/interfaces/listing-filtering.interface'
+import { ManageRequestDataFilteringType } from '../enums/manage-request-data-filtering-type.enum'
 
 export class ManageRequestDataMapper {
   static mapRequestDataDbToManageRequestDataResponse(requestData: RequestDataDB): ManageRequestDataResponse {
@@ -14,66 +17,30 @@ export class ManageRequestDataMapper {
     }
   }
 
-  // static mapFilteringToManageTokenFilteringResponse(currentFiltering: ListingFiltering): ManageRequestDataResponse>[] {
-  //   const options: ManageRequestDataFilteringResponse[] = [
-  //     {
-  //       id: ManageTokenFilteringType.ID,
-  //       name: 'Token database identifier',
-  //     },
-  //     {
-  //       id: ManageTokenFilteringType.NAME,
-  //       name: 'Token name',
-  //     },
-  //     {
-  //       id: ManageTokenFilteringType.CONTRACT_ADDRESS,
-  //       name: 'Token contract address',
-  //     },
-  //     {
-  //       id: ManageTokenFilteringType.TOKEN_ID,
-  //       name: 'Token public identifier',
-  //     },
-  //     {
-  //       id: ManageTokenFilteringType.BLOCKCHAIN,
-  //       name: 'Token blockchain',
-  //     },
-  //     {
-  //       id: ManageTokenFilteringType.TOKEN_URL,
-  //       name: 'Token url',
-  //     },
-  //     {
-  //       id: ManageTokenFilteringType.CATEGORY,
-  //       name: 'Token category',
-  //     },
-  //     {
-  //       id: ManageTokenFilteringType.VISIBLE,
-  //       name: 'Visible',
-  //     },
-  //     {
-  //       id: ManageTokenFilteringType.ACTIVE,
-  //       name: 'Active',
-  //     },
-  //     {
-  //       id: ManageTokenFilteringType.GOLDEN_TICKET,
-  //       name: 'Golden ticket',
-  //     },
-  //     {
-  //       id: ManageTokenFilteringType.CREATED_AT,
-  //       name: 'Created at',
-  //     },
-  //     {
-  //       id: ManageTokenFilteringType.CREATED_BY,
-  //       name: 'Created by',
-  //     },
-  //     {
-  //       id: ManageTokenFilteringType.UPDATED_AT,
-  //       name: 'Updated at',
-  //     },
-  //     {
-  //       id: ManageTokenFilteringType.UPDATED_BY,
-  //       name: 'Updated by',
-  //     },
-  //   ]
-  //
-  //   return options.map((option) => (currentFiltering[option.id] ? { id: option.id, name: option.name, selected: currentFiltering } : { id: option.id, name: option.name }))
-  // }
+  static mapFilteringToManageRequestDataFilteringResponse(currentFiltering: ListingFiltering): ManageRequestDataFilteringResponse[] {
+    const options: ManageRequestDataFilteringResponse[] = [
+      {
+        id: ManageRequestDataFilteringType.ID,
+        name: 'Database identifier',
+      },
+      {
+        id: ManageRequestDataFilteringType.SERVICE_PROVIDER,
+        name: 'Request service provider',
+      },
+      {
+        id: ManageRequestDataFilteringType.TIME_OF_SENDING,
+        name: 'Time of sending the request',
+      },
+      {
+        id: ManageRequestDataFilteringType.NUMBER_OF_KPIS_SENT,
+        name: 'Number of KPIs sent via the request',
+      },
+      {
+        id: ManageRequestDataFilteringType.SUCCESSFUL_REQUEST,
+        name: 'Request status (success)',
+      },
+    ]
+
+    return options.map((option) => (currentFiltering[option.id] ? { id: option.id, name: option.name, selected: currentFiltering } : { id: option.id, name: option.name }))
+  }
 }

@@ -10,12 +10,13 @@ export class SchedulerService {
 
   readonly selfUrl = this.configService.get('SELF_URL', 'http://127.0.0.1:3000/api/databox-challenge')
 
+  // Cronjob will be executed every day at 23:59 local time
   @Cron('59 23 * * *')
   async handleCron() {
     Logger.log(`Cron Job execution instantiated at ${new Date().toISOString()}. Daily sync of the metrics is starting.`)
 
+    // We specifically want to run requests separately, otherwise, we could use await Promise.all([...])
     await firstValueFrom(this.httpService.get(`${this.selfUrl}/manage/metrics/CoinCap`))
-
     await firstValueFrom(this.httpService.get(`${this.selfUrl}/manage/metrics/GitHub`))
 
     Logger.log(`Cron Job execution finished at ${new Date().toISOString()}. Daily sync of the metrics is done.`)

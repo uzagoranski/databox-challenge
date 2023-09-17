@@ -38,10 +38,12 @@ export class ManageController {
   @ApiOperation({ summary: 'Stores chain metrics, fetched from CoinCap API' })
   @ApiOkResponse({ description: 'Mapped data response, stored in the db', type: ManageRequestDataResponse })
   @ApiBadRequestResponse({ description: 'Bad request' })
-  async fetchAndStoreCoinCapData(): Promise<any> {
+  async fetchAndStoreCoinCapData(): Promise<ManageRequestDataResponse> {
+    // We'll first fetch the metrics from CoinCap API
     // More chains can be easily added by updating CoinCapChain enum
     const metrics = await this.manageService.fetchChainDataMetrics(Object.values(CoinCapChain))
 
+    // Then, we'll push them into Databox API, store the request/response data in our local database and return a mapped value
     return this.manageService.pushMultipleMetrics(metrics, ServiceProvider.COINCAP)
   }
 
@@ -49,9 +51,17 @@ export class ManageController {
   @ApiOperation({ summary: 'Stores GitHub metrics, fetched from GitHub API' })
   @ApiOkResponse({ description: 'Mapped data response, stored in the db', type: ManageRequestDataResponse })
   @ApiBadRequestResponse({ description: 'Bad request' })
-  async fetchAndStoreGitHubData(@Res() response: Response, @Query('code') code?: string): Promise<any> {
+  async fetchAndStoreGitHubData(@Res() response: Response, @Query('code') code?: string): Promise<ManageRequestDataResponse> {
+    // We'll first fetch the metrics from GitHub API
     const metrics = await this.manageService.fetchGitHubMetrics(response, code)
 
-    return this.manageService.pushMultipleMetrics(metrics, ServiceProvider.GITHUB)
+    // Then, we'll push them into Databox API, store the request/response data in our local database and return a mapped value
+    const mappedData = await this.manageService.pushMultipleMetrics(metrics, ServiceProvider.GITHUB)
+
+    // To complete the request, we have to manually send the response back as we're using
+    // the @Res() annotation which interferes with the regular NestJS response handler
+    response.status(200).send(mappedData)
+
+    return mappedData
   }
 }

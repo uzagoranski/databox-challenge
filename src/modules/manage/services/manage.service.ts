@@ -24,6 +24,7 @@ export class ManageService {
    * Pushes multiple metrics to Databox API & creates a new row in DB based on the request status
    */
   async pushMultipleMetrics(metrics: Metric[], serviceProvider: ServiceProvider): Promise<ManageRequestDataResponse> {
+    // First, we create the partial request data object
     const requestData: Partial<RequestDataDB> = {
       serviceProvider,
       metricsSent: metrics,
@@ -32,33 +33,40 @@ export class ManageService {
     }
 
     try {
+      // Then, we'll call Databox integration service to push the aforementioned data via Push API
       await this.databoxService.pushMultipleMetrics(metrics)
 
+      // If request is successful, we'll store the data into our database
       return ManageRequestDataMapper.mapRequestDataDbToManageRequestDataResponse(await this.dbWritingService.saveRequestData(requestData))
     } catch (e) {
+      // Otherwise, we'll enhance the request data object with error details and mark it as unsuccessful
       requestData.successfulRequest = false
       requestData.errorMessage = e.message
 
+      // And push the enhanced data into our database
       return ManageRequestDataMapper.mapRequestDataDbToManageRequestDataResponse(await this.dbWritingService.saveRequestData(requestData))
     }
   }
 
   /**
-   * Fetches data from CoinCap API and maps it to internal metrics
+   * Fetches data from CoinCap API, aggregates and maps it to internal metrics
    */
   async fetchChainDataMetrics(chains: CoinCapChain[]): Promise<Metric[]> {
     const metrics: Metric[] = []
 
+    // To get data for all relevant chains, we have to call the CoinCap integration service a couple of times
     const chainData = await Promise.all(chains.map((chain) => this.coinCapService.getChainData(chain)))
 
+    // When data is successfully fetched, we have to map it to Databox format by creating key-value pairs
     chainData.forEach((chainItem) => {
       const { symbol, priceUsd, supply } = chainItem.data
 
-      const values = [
+      const values: Metric[] = [
         { key: `${symbol}_price_usd`, value: parseFloat(parseFloat(priceUsd).toFixed(2)) },
         { key: `${symbol}_supply`, value: parseFloat(parseFloat(supply).toFixed(2)) },
       ]
 
+      // The key-value pairs are then pushed into metrics array, which is returned to the client
       metrics.push(...values)
     })
 
@@ -66,21 +74,24 @@ export class ManageService {
   }
 
   /**
-   * Fetches data from GitHub API and maps it to internal metrics if authentication is present in the app
+   * Fetches data from GitHub API and maps it to internal metrics if OAuth2 authentication flow has been successfully completed
    */
   async fetchGitHubMetrics(response: Response, code?: string): Promise<Metric[]> {
     const metrics: Metric[] = []
 
+    // To get data for all relevant metrics, we have to call the GitHub integration service two times
     const [ commitsSinceYesterday, openPullRequests ] = await Promise.all([
       await this.gitHubService.getCommits(response, code),
       await this.gitHubService.getPullRequests(response, code),
     ])
 
-    const values = [
+    // When data is successfully fetched, we have to map it to Databox format by creating key-value pairs
+    const values: Metric[] = [
       { key: 'GitHub_commits_since_yesterday', value: commitsSinceYesterday.length },
       { key: 'GitHub_open_pull_requests', value: openPullRequests.length },
     ]
 
+    // The key-value pairs are then pushed into metrics array, which is returned to the client
     metrics.push(...values)
 
     return metrics

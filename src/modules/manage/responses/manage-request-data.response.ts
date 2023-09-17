@@ -12,13 +12,13 @@ export class ManageRequestDataResponse {
   @ApiProperty({ example: '2022-03-21 07:56:20.114966', description: 'Request execution date' })
     time_of_sending: string
 
-  @ApiProperty({ example: [{ key: 'test', value: 1 }, { key: 'test', value: 5 }], description: 'Array of metrics, sent to Databox API' })
+  @ApiProperty({ example: [{ key: 'BTC_price_usd', value: 26982.25 }, { key: 'GitHub_commits_since_yesterday', value: 5 }], description: 'Array of metrics, sent to Databox API' })
     metrics_sent: Metric[]
 
   @ApiProperty({ example: 3, description: 'Amount of sent KPIs' })
     number_of_KPIs_sent: number
 
-  @ApiProperty({ example: true, description: 'Request status (successful/erroneous)' })
+  @ApiProperty({ example: false, description: 'Request status (successful/erroneous)' })
     successful_request: boolean
 
   @ApiPropertyOptional({ example: 'Validation error', description: 'Optional error message in case request failed' })

@@ -9,7 +9,7 @@
     "node": ">= 20.6.1"
   },
   "scripts": {
-    "generate:swagger": "npx ts-node -r tsconfig-paths/register src/docs/swagger/swagger.generator.ts",
+    "generate:swagger": "npx ts-node -r tsconfig-paths/register src/docs/swagger/swagger.factory.ts",
     "prepare": "husky install",
     "prebuild": "rimraf dist",
     "build": "nest build",

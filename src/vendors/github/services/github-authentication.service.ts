@@ -23,6 +23,7 @@ export class GitHubAuthenticationService {
   async authenticateUser(res: Response, code?: string): Promise<AuthenticationDB> {
     const { authUrl, clientId, clientSecret } = this.gitHubRequestOptionsFactory.getConfig()
 
+    // If code is provided in the request, that means we're in the 2nd step of OAuth2 flow, requesting the actual access_token from the GitHub API
     if (code) {
       const response = await firstValueFrom(
         this.httpService.get<GitHubAuthenticationResponse>(`${authUrl}/access_token?client_id=${clientId}&client_secret=${clientSecret}&code=${code}`, { headers: { Accept: 'application/json' } }),
@@ -31,14 +32,20 @@ export class GitHubAuthenticationService {
       return this.saveAuthenticationData(response.data)
     }
 
+    // Otherwise, we want to check if some data is already present in the database. Keep in mind this is for development
+    // purpose only and would be implemented in a different way, if we also had a requirement to implement user management.
+    // In that case, we'd link the tokens to the user profile, now, we're only allowing one connection per instance.
     const authentication = await this.dbFetchingService.getAuthentication()
 
+    // If authentication data is not present, we want to initialise OAuth2 flow, calling the GitHub API /authorize endpoint
     if (!authentication) {
       res.redirect(`${authUrl}/authorize?client_id=${clientId}`)
 
       return
     }
 
+    // Otherwise, we want to check, if access_token, stored in our DB is still valid. If not, we'll call GitHub API
+    // with our refresh_token and request a new access token that will allow us to fetch relevant data.
     if (authentication.accessTokenExpiresAt < new Date()) {
       const response = await firstValueFrom(
         this.httpService.get<GitHubAuthenticationResponse>(`${authUrl}/access_token?client_id=${clientId}&client_secret=${clientSecret}&grant_type=refresh_token&refresh_token=${authentication.refreshToken}`, { headers: { Accept: 'application/json' } }),
