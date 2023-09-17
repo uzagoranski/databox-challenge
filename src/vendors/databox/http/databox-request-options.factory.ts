@@ -10,7 +10,7 @@ export class DataboxRequestOptionsFactory {
   buildUrl(path?: string): string {
     const { baseUrl } = this.config
 
-    return `${baseUrl}${path || ''}`
+    return `${baseUrl}${path ? `/${path}` : ''}`
   }
 
   createFormRequestOptions(): HttpModuleOptions {

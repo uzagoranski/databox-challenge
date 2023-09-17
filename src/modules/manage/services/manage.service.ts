@@ -1,25 +1,26 @@
 import { Injectable } from '@nestjs/common'
 import { DataboxService } from '../../../vendors/databox/services/databox.service'
-import { DbListingService } from '../../../libs/db/services/db-listing.service'
-import { DbFetchingService } from '../../../libs/db/services/db-fetching.service'
 import { DbWritingService } from '../../../libs/db/services/db-writing.service'
 import { Metric } from '../../../shared/interfaces/metric.interface'
 import { ServiceProvider } from '../../../shared/enums/service-provider.enum'
 import { RequestDataDB } from '../../../libs/db/entities/request-data-db.entity'
+import { CoinCapChain } from '../../../vendors/coincap/enums/coincap-chain.enum'
+import { CoinCapService } from '../../../vendors/coincap/services/coincap.service'
+import { ManageRequestDataMapper } from '../mappers/manage-request-data.mapper'
+import { ManageRequestDataResponse } from '../responses/manage-request-data.response'
 
 @Injectable()
 export class ManageService {
   constructor(
     private readonly databoxService: DataboxService,
-    private readonly dbListingService: DbListingService,
-    private readonly dbFetchingService: DbFetchingService,
+    private readonly coinCapService: CoinCapService,
     private readonly dbWritingService: DbWritingService,
   ) {}
 
   /**
-   * Pushes metrics to Databox API & creates a new row in DB
+   * Pushes multiple metrics to Databox API & creates a new row in DB based on the request status
    */
-  async pushMany(metrics: Metric[], serviceProvider: ServiceProvider): Promise<RequestDataDB> {
+  async pushMultipleMetrics(metrics: Metric[], serviceProvider: ServiceProvider): Promise<ManageRequestDataResponse> {
     const requestData: Partial<RequestDataDB> = {
       serviceProvider,
       timeOfSending: new Date().toISOString(),
@@ -31,24 +32,36 @@ export class ManageService {
     try {
       await this.databoxService.pushMultipleMetrics(metrics)
 
-      return this.dbWritingService.saveRequestData(requestData)
+      return ManageRequestDataMapper.mapRequestDataDbToManageRequestDataResponse(await this.dbWritingService.saveRequestData(requestData))
     } catch (e) {
       requestData.successfulRequest = false
       requestData.errorMessage = e.message
 
-      return this.dbWritingService.saveRequestData(requestData)
+      return ManageRequestDataMapper.mapRequestDataDbToManageRequestDataResponse(await this.dbWritingService.saveRequestData(requestData))
     }
   }
 
-  // /**
-  //    * Pushes metrics to Databox API & creates a new row in DB
-  //    */
-  // async getLastPush(): Promise<void> {
-  //   const test = await this.databoxService.getLastPush()
-  //
-  //   // eslint-disable-next-line no-console
-  //   console.log(test)
-  // }
+  /**
+   * Fetches data from CoinCap API and maps it to internal metrics
+   */
+  async fetchChainDataMetrics(chains: CoinCapChain[]): Promise<Metric[]> {
+    const metrics: Metric[] = []
+
+    const chainData = await Promise.all(chains.map((chain) => this.coinCapService.getChainData(chain)))
+
+    chainData.forEach((chainItem) => {
+      const { symbol, priceUsd, supply } = chainItem.data
+
+      const values = [
+        { key: `${symbol}_price_usd`, value: parseFloat(parseFloat(priceUsd).toFixed(2)) },
+        { key: `${symbol}_supply`, value: parseFloat(parseFloat(supply).toFixed(2)) },
+      ]
+
+      metrics.push(...values)
+    })
+
+    return metrics
+  }
 
   // /**
   //  * Return list of tokens from database based on listing (sorting, filtering) parameters

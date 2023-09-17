@@ -5,6 +5,6 @@ const configService = new ConfigService()
 
 export default registerAs<DataboxHttpConfig>('DataboxHttpConfig', () => ({
   baseUrl: configService.get('DATABOX_BASE_URL', ''),
-  pushToken: configService.get('DATABOX_PUSH_TOKEN', ''),
   userAgent: configService.get('DATABOX_USER_AGENT', ''),
+  pushToken: configService.get('SECRET_DATABOX_PUSH_TOKEN', ''),
 }))

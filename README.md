@@ -9,9 +9,10 @@ Databox Backend Engineer Challenge MS is an API to serve as a bridge between Dat
 To be able to run the service, you must ensure you have the following tools installed:
 
 - **Node.js**: version 20.6.1 or higher. You can download and install it from [here](https://nodejs.org/en/download/).
-  > I encourage you to use [nvm](https://github.com/nvm-sh/nvm) to install, update and maintain multiple Node.js versions at the same time on your machine.
 
-In case you use macOS and you have [Homebrew package manager](https://brew.sh/), you can install it via the following commands:
+> I encourage you to use [nvm](https://github.com/nvm-sh/nvm) to install, update and maintain multiple Node.js versions at the same time on your machine.
+
+In case you use macOS with [Homebrew package manager](https://brew.sh/), you can install it via the following commands:
 
 ```zsh
 # Node.js
@@ -179,5 +180,16 @@ databox.dto.ts
 
 ### Databox
 
-- Databox - [Webpage](https://databox.com/) - Company website.
-- Databox - [Documentation](https://developers.databox.com/) - General development documentation.
+- Databox - [Webpage](https://databox.com/) - Official company website.
+- Databox - [Documentation](https://developers.databox.com/) - General development documentation (Push API etc.).
+
+### GitHub
+
+- GitHub - [Webpage](https://github.com/) - Official company website.
+- GitHub - [Documentation](https://docs.coincap.io/) - General development documentation (GitHub Apps, OAuth apps, Marketplace etc.).
+
+
+### CoinCap
+
+- CoinCap - [Webpage](https://coincap.io/) - Official company website.
+- CoinCap - [Documentation](https://docs.github.com/en/apps/overview) - General development documentation (RESTful API & WebSocket docs).
