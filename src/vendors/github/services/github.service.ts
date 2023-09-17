@@ -1,45 +1,51 @@
 import { HttpService } from '@nestjs/axios'
 import { Injectable, Logger } from '@nestjs/common'
 import { firstValueFrom } from 'rxjs'
+import { Response } from 'express'
 import { GitHubRequestOptionsFactory } from '../http/github-request-options.factory'
-import { GithubCommitsResponse } from '../responses/github-commits.response'
+import { GitHubAuthenticationService } from './github-authentication.service'
 
 @Injectable()
 export class GitHubService {
   constructor(
     private readonly httpService: HttpService,
+    private readonly gitHubAuthorizationService: GitHubAuthenticationService,
     private readonly gitHubRequestOptionsFactory: GitHubRequestOptionsFactory,
   ) {}
 
   /**
-   * Initiate OAuth authentication flow in order to be able to access GitHub API
+   * Fetch commit data for selected repository from GitHub API
    */
-  async authenticateUser(): Promise<any> {
-    const path = this.gitHubRequestOptionsFactory.buildUrl()
+  async getCommits(res: Response, code?: string): Promise<any[]> {
+    const yesterday = new Date()
 
-    try {
-      const response = await firstValueFrom(this.httpService.get<GithubCommitsResponse>(path))
+    yesterday.setDate(yesterday.getDate() - 1)
 
-      return response.data
-    } catch (e) {
-      Logger.error(`There has been an error in interaction with GitHub API. Error details: ${e.message}`)
+    const path = this.gitHubRequestOptionsFactory.buildUrl(`commits?since=${yesterday.toISOString()}`)
 
-      throw e
-    }
+    return this.fetchData(path, res, code)
   }
 
   /**
-   * Fetch commit data for selected repository from GitHub API
+   * Fetch pull request data for selected repository from GitHub API
    */
-  async getCommitsData(): Promise<GithubCommitsResponse> {
-    const path = this.gitHubRequestOptionsFactory.buildUrl()
+  async getPullRequests(res: Response, code?: string): Promise<any[]> {
+    const path = this.gitHubRequestOptionsFactory.buildUrl(`pulls?state=open&per_page=100`)
 
+    return this.fetchData(path, res, code)
+  }
+
+  private async fetchData(path: string, res: Response, code?: string): Promise<any[]> {
     try {
-      const response = await firstValueFrom(this.httpService.get<GithubCommitsResponse>(path))
+      const authentication = await this.gitHubAuthorizationService.authenticateUser(res, code)
+
+      const options = this.gitHubRequestOptionsFactory.createFormRequestOptions(authentication.accessToken)
+
+      const response = await firstValueFrom(this.httpService.get<any>(path, options))
 
       return response.data
     } catch (e) {
-      Logger.error(`There has been an error in interaction with GitHub API. Error details: ${e.message}`)
+      Logger.error(`An error occurred in interaction with GitHub API. Error details: ${e.message}`)
 
       throw e
     }

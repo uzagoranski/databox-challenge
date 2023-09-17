@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common'
-import { Logger } from '@nestjs/common/services/logger.service'
+import { Response } from 'express'
 import { DataboxService } from '../../../vendors/databox/services/databox.service'
 import { DbWritingService } from '../../../libs/db/services/db-writing.service'
 import { Metric } from '../../../shared/interfaces/metric.interface'
@@ -14,10 +14,10 @@ import { ManageRequestDataResponse } from '../responses/manage-request-data.resp
 @Injectable()
 export class ManageService {
   constructor(
+    private readonly dbWritingService: DbWritingService,
     private readonly databoxService: DataboxService,
     private readonly gitHubService: GitHubService,
     private readonly coinCapService: CoinCapService,
-    private readonly dbWritingService: DbWritingService,
   ) {}
 
   /**
@@ -26,7 +26,6 @@ export class ManageService {
   async pushMultipleMetrics(metrics: Metric[], serviceProvider: ServiceProvider): Promise<ManageRequestDataResponse> {
     const requestData: Partial<RequestDataDB> = {
       serviceProvider,
-      timeOfSending: new Date().toISOString(),
       metricsSent: metrics,
       numberOfKPIsSent: metrics.length,
       successfulRequest: true,
@@ -67,28 +66,24 @@ export class ManageService {
   }
 
   /**
-     * Fetches data from GitHub API and maps it to internal metrics
-     */
-  async fetchGitHubMetrics(): Promise<Metric[]> {
+   * Fetches data from GitHub API and maps it to internal metrics if authentication is present in the app
+   */
+  async fetchGitHubMetrics(response: Response, code?: string): Promise<Metric[]> {
     const metrics: Metric[] = []
 
-    const gitHubData = await this.gitHubService.getCommitsData()
+    const [ commitsSinceYesterday, openPullRequests ] = await Promise.all([
+      await this.gitHubService.getCommits(response, code),
+      await this.gitHubService.getPullRequests(response, code),
+    ])
 
-    Logger.log(gitHubData)
+    const values = [
+      { key: 'GitHub_commits_since_yesterday', value: commitsSinceYesterday.length },
+      { key: 'GitHub_open_pull_requests', value: openPullRequests.length },
+    ]
+
+    metrics.push(...values)
 
     return metrics
-    // chainData.forEach((chainItem) => {
-    //   const { symbol, priceUsd, supply } = chainItem.data
-    //
-    //   const values = [
-    //     { key: `${symbol}_price_usd`, value: parseFloat(parseFloat(priceUsd).toFixed(2)) },
-    //     { key: `${symbol}_supply`, value: parseFloat(parseFloat(supply).toFixed(2)) },
-    //   ]
-    //
-    //   metrics.push(...values)
-    // })
-    //
-    // return metrics
   }
 
   // /**

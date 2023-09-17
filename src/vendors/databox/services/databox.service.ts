@@ -30,7 +30,7 @@ export class DataboxService {
 
       return response.data
     } catch (e) {
-      Logger.error(`There has been an error in interaction with Databox API. Error details: ${e.message}`)
+      Logger.error(`An error occurred in interaction with Databox API. Error details: ${e.message}`)
 
       throw e
     }

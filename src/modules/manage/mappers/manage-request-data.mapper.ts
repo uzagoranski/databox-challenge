@@ -6,7 +6,7 @@ export class ManageRequestDataMapper {
     return {
       id: requestData.id,
       service_provider: requestData.serviceProvider,
-      time_of_sending: requestData.timeOfSending,
+      time_of_sending: requestData.timeOfSending.toISOString(),
       metrics_sent: requestData.metricsSent,
       number_of_KPIs_sent: requestData.numberOfKPIsSent,
       successful_request: requestData.successfulRequest,

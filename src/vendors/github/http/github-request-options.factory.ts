@@ -8,15 +8,20 @@ export class GitHubRequestOptionsFactory {
   constructor(@Inject(gitHubHttpConfig.KEY) private config: GitHubHttpConfig) {}
 
   buildUrl(path?: string): string {
-    const { baseUrl } = this.config
+    const { baseUrl, repository, owner } = this.config
 
-    return `${baseUrl}${path ? `/${path}` : ''}`
+    return `${baseUrl}/repos/${owner}/${repository}${path ? `/${path}` : ''}`
+  }
+
+  getConfig(): GitHubHttpConfig {
+    return this.config
   }
 
   createFormRequestOptions(token: string): HttpModuleOptions {
     return {
       headers: {
         'Content-Type': 'application/json',
+        'X-GitHub-Api-Version': this.config.apiVersion,
         Accept: 'application/vnd.github+json',
         Authorization: `Bearer ${token}`,
       },

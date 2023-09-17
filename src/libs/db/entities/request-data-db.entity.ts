@@ -1,4 +1,4 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm'
 import { ServiceProvider } from '../../../shared/enums/service-provider.enum'
 import { Metric } from '../../../shared/interfaces/metric.interface'
 
@@ -10,8 +10,8 @@ export class RequestDataDB {
   @Column({ type: 'enum', enum: ServiceProvider })
     serviceProvider!: ServiceProvider
 
-  @Column()
-    timeOfSending!: string
+  @UpdateDateColumn()
+    timeOfSending!: Date
 
   @Column({ type: 'json' })
     metricsSent!: Metric[]

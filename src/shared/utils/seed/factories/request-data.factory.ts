@@ -10,7 +10,7 @@ export const RequestDataFactory = setSeederFactory(RequestDataDB, (faker: Faker)
   const numberOfMetrics = Math.floor(Math.random() * 5) + 1
 
   requestDataDB.serviceProvider = faker.helpers.arrayElement(Object.values(ServiceProvider))
-  requestDataDB.timeOfSending = faker.date.anytime().toISOString()
+  requestDataDB.timeOfSending = faker.date.anytime()
   requestDataDB.metricsSent = []
   Array.from(Array(numberOfMetrics)).forEach(() => {
     requestDataDB.metricsSent.push({
