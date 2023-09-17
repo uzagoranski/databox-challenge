@@ -39,12 +39,8 @@ export class ManageController {
   @ApiOkResponse({ description: 'Mapped data response, stored in the db', type: ManageRequestDataResponse })
   @ApiBadRequestResponse({ description: 'Bad request' })
   async fetchAndStoreCoinCapData(): Promise<any> {
-    const metrics = await this.manageService.fetchChainDataMetrics(
-      // More chains can be easily added by updating CoinCapChain enum
-      [
-        CoinCapChain.BITCOIN, CoinCapChain.ETHEREUM, CoinCapChain.CARDANO,
-      ],
-    )
+    // More chains can be easily added by updating CoinCapChain enum
+    const metrics = await this.manageService.fetchChainDataMetrics(Object.values(CoinCapChain))
 
     return this.manageService.pushMultipleMetrics(metrics, ServiceProvider.COINCAP)
   }
