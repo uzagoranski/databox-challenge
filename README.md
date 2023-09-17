@@ -67,12 +67,15 @@ Here you can find the complete list of ENV variables that the Databox Challenge 
 | PRINT_CURL_REQUESTS       | Enables printing curl requests                                                                     |
 | DATABOX_BASE_URL          | Url to which a connection will be made when calling Databox Push API                               |
 | DATABOX_USER_AGENT        | User-agent header that will be sent along the requests when calling Databox Push API               |
-| DATABOX_ACCEPT_ENCODING   | Accept header that will be sent along the requests when calling Databox Push API                   |
+| GITHUB_BASE_URL           | Url to which a connection will be made when calling GitHub API                                     |
+| GITHUB_API_VERSION        | Target API version to fetch from when calling GitHub API                                           |
+| GITHUB_CLIENT_ID          | Client id of the GitHub application, created for this service                                      |
 
-| Secret                    | Description                                                       |
-|---------------------------|-------------------------------------------------------------------|
-| SECRET_TYPEORM_PASSWORD   | Password with which TypeORM will be able to perform queries       |
-| SECRET_DATABOX_PUSH_TOKEN | Push token expected to be able to connect to the Databox Push API |
+| Secret                      | Description                                                                              |
+|-----------------------------|------------------------------------------------------------------------------------------|
+| SECRET_TYPEORM_PASSWORD     | Password with which TypeORM will be able to perform queries                              |
+| SECRET_DATABOX_PUSH_TOKEN   | Push token expected to be able to connect to the Databox Push API                        |
+| SECRET_GITHUB_CLIENT_SECRET | Client secret, sent along with requests in order to be able to connect to the GitHub API |
 
 
 Add your application configuration to your `.env` file in the root of your project by duplicating `.env-example` file:

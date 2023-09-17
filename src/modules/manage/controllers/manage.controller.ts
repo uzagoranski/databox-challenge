@@ -45,4 +45,19 @@ export class ManageController {
 
     return this.manageService.pushMultipleMetrics(metrics, ServiceProvider.COINCAP)
   }
+
+  @Post('/gitHub')
+  @ApiOperation({ summary: 'Stores GitHub metrics, fetched from GitHub API' })
+  @ApiOkResponse({ description: 'Mapped data response, stored in the db', type: ManageRequestDataResponse })
+  @ApiBadRequestResponse({ description: 'Bad request' })
+  async fetchAndStoreGitHubData(): Promise<any> {
+    const metrics = await this.manageService.fetchChainDataMetrics(
+      // More chains can be easily added
+      [
+        CoinCapChain.BITCOIN, CoinCapChain.ETHEREUM, CoinCapChain.CARDANO,
+      ],
+    )
+
+    return this.manageService.pushMultipleMetrics(metrics, ServiceProvider.COINCAP)
+  }
 }

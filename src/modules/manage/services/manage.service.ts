@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common'
+import { Logger } from '@nestjs/common/services/logger.service'
 import { DataboxService } from '../../../vendors/databox/services/databox.service'
 import { DbWritingService } from '../../../libs/db/services/db-writing.service'
 import { Metric } from '../../../shared/interfaces/metric.interface'
 import { ServiceProvider } from '../../../shared/enums/service-provider.enum'
 import { RequestDataDB } from '../../../libs/db/entities/request-data-db.entity'
 import { CoinCapChain } from '../../../vendors/coincap/enums/coincap-chain.enum'
+import { GitHubService } from '../../../vendors/github/services/github.service'
 import { CoinCapService } from '../../../vendors/coincap/services/coincap.service'
 import { ManageRequestDataMapper } from '../mappers/manage-request-data.mapper'
 import { ManageRequestDataResponse } from '../responses/manage-request-data.response'
@@ -13,6 +15,7 @@ import { ManageRequestDataResponse } from '../responses/manage-request-data.resp
 export class ManageService {
   constructor(
     private readonly databoxService: DataboxService,
+    private readonly gitHubService: GitHubService,
     private readonly coinCapService: CoinCapService,
     private readonly dbWritingService: DbWritingService,
   ) {}
@@ -61,6 +64,31 @@ export class ManageService {
     })
 
     return metrics
+  }
+
+  /**
+     * Fetches data from GitHub API and maps it to internal metrics
+     */
+  async fetchGitHubMetrics(): Promise<Metric[]> {
+    const metrics: Metric[] = []
+
+    const gitHubData = await this.gitHubService.getCommitsData()
+
+    Logger.log(gitHubData)
+
+    return metrics
+    // chainData.forEach((chainItem) => {
+    //   const { symbol, priceUsd, supply } = chainItem.data
+    //
+    //   const values = [
+    //     { key: `${symbol}_price_usd`, value: parseFloat(parseFloat(priceUsd).toFixed(2)) },
+    //     { key: `${symbol}_supply`, value: parseFloat(parseFloat(supply).toFixed(2)) },
+    //   ]
+    //
+    //   metrics.push(...values)
+    // })
+    //
+    // return metrics
   }
 
   // /**
