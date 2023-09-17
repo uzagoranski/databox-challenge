@@ -56,20 +56,21 @@ Before running the service, you must define the ENV variables, required to make 
 
 Here you can find the complete list of ENV variables that the Databox Challenge MS uses:
 
-| Variable                  | Description                                                                                        |
-|---------------------------|----------------------------------------------------------------------------------------------------|
-| DEVICE_CONFIGURATION_MODE | Determines on which environment the service is running. Can be one of: `development`, `production` |
-| MS_PORT                   | Allows modifying the port where MS will be started on (default is `3000`)                          |
-| TYPEORM_PORT              | Port, where the MySQL instance is running                                                          |
-| TYPEORM_HOST              | Host, where the MySQL instance is running                                                          |
-| TYPEORM_DATABASE          | Database name to which TypeORM has to connect in order to perform queries                          |
-| TYPEORM_USERNAME          | Username with which TypeORM will be able to perform queries in database from the previous row      |
-| PRINT_CURL_REQUESTS       | Enables printing curl requests                                                                     |
-| DATABOX_BASE_URL          | Url to which a connection will be made when calling Databox Push API                               |
-| DATABOX_USER_AGENT        | User-agent header that will be sent along the requests when calling Databox Push API               |
-| GITHUB_BASE_URL           | Url to which a connection will be made when calling GitHub API                                     |
-| GITHUB_API_VERSION        | Target API version to fetch from when calling GitHub API                                           |
-| GITHUB_CLIENT_ID          | Client id of the GitHub application, created for this service                                      |
+| Variable                  | Description                                                                                                                            |
+|---------------------------|----------------------------------------------------------------------------------------------------------------------------------------|
+| DEVICE_CONFIGURATION_MODE | Determines on which environment the service is running. Can be one of: `development`, `production`                                     |
+| MS_PORT                   | Allows modifying the port where the MS will run on (default is `3000`)                                                                 |
+| SELF_URL                  | Used for scheduler/cronjob purposes to be able to externally access the API (in case we'd use an external service for task scheduling) |
+| TYPEORM_PORT              | Port, where the MySQL instance is running                                                                                              |
+| TYPEORM_HOST              | Host, where the MySQL instance is running                                                                                              |
+| TYPEORM_DATABASE          | Database name to which TypeORM has to connect in order to perform queries                                                              |
+| TYPEORM_USERNAME          | Username with which TypeORM will be able to perform queries in database from the previous row                                          |
+| PRINT_CURL_REQUESTS       | Enables printing curl requests                                                                                                         |
+| DATABOX_BASE_URL          | Url to which a connection will be made when calling Databox Push API                                                                   |
+| DATABOX_USER_AGENT        | User-agent header that will be sent along the requests when calling Databox Push API                                                   |
+| GITHUB_BASE_URL           | Url to which a connection will be made when calling GitHub API                                                                         |
+| GITHUB_API_VERSION        | Target API version to fetch from when calling GitHub API                                                                               |
+| GITHUB_CLIENT_ID          | Client id of the GitHub application, created for this service                                                                          |
 
 | Secret                      | Description                                                                              |
 |-----------------------------|------------------------------------------------------------------------------------------|
@@ -93,7 +94,7 @@ Make sure you have [Docker](https://docs.docker.com/get-docker/) installed.
 To create an instance of your database, run one of the following commands:
 
 ```zsh
-# For Apple silicon chips
+# For Apple Silicon chips
 $ docker-compose -f docker-compose.arm.yml up
 
 # For every other chip
