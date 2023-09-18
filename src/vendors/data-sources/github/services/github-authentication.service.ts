@@ -3,10 +3,10 @@ import { Injectable } from '@nestjs/common'
 import { firstValueFrom } from 'rxjs'
 import { Response } from 'express'
 import { GitHubRequestOptionsFactory } from '../http/github-request-options.factory'
-import { DbFetchingService } from '../../../libs/db/services/db-fetching.service'
+import { DbFetchingService } from '../../../../libs/db/services/db-fetching.service'
 import { GitHubAuthenticationResponse } from '../responses/github-authentication.response'
-import { DbWritingService } from '../../../libs/db/services/db-writing.service'
-import { AuthenticationEntity } from '../../../libs/db/entities/authentication.entity'
+import { DbWritingService } from '../../../../libs/db/services/db-writing.service'
+import { AuthenticationEntity } from '../../../../libs/db/entities/authentication.entity'
 
 @Injectable()
 export class GitHubAuthenticationService {
@@ -18,9 +18,9 @@ export class GitHubAuthenticationService {
   ) {}
 
   /**
-   * Initiate OAuth authentication flow in order to be able to access GitHub API
+   * Initialise OAuth2 authentication flow in order to be able to access GitHub API
    */
-  async authenticateUser(res: Response, code?: string): Promise<AuthenticationEntity> {
+  async authenticateUser(res: Response, code?: string): Promise<AuthenticationEntity | null> {
     const { authUrl, clientId, clientSecret } = this.gitHubRequestOptionsFactory.getConfig()
 
     // If code is provided in the request, that means we're in the 2nd step of OAuth2 flow, requesting the actual access_token from the GitHub API
@@ -41,7 +41,7 @@ export class GitHubAuthenticationService {
     if (!authentication) {
       res.redirect(`${authUrl}/authorize?client_id=${clientId}`)
 
-      return
+      return null
     }
 
     // Otherwise, we want to check, if access_token, stored in our DB is still valid. If not, we'll call GitHub API
@@ -55,6 +55,13 @@ export class GitHubAuthenticationService {
     }
 
     return authentication
+  }
+
+  /**
+   * Returns authentication data if it exists in the database
+   */
+  async getAuthenticationData(): Promise<AuthenticationEntity | null> {
+    return this.dbFetchingService.getAuthentication()
   }
 
   private async saveAuthenticationData(authenticationResponse: GitHubAuthenticationResponse): Promise<AuthenticationEntity> {

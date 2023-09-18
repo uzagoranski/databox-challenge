@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { Response } from 'express'
-import { GitHubAuthenticationService } from '../../../vendors/github/services/github-authentication.service'
+import { GitHubAuthenticationService } from '../../../vendors/data-sources/github/services/github-authentication.service'
 import { AuthenticationMapper } from '../mappers/authentication.mapper'
 import { AuthenticationResponse } from '../responses/authentication.response'
 import { DbWritingService } from '../../../libs/db/services/db-writing.service'

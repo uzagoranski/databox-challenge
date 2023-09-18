@@ -44,7 +44,7 @@ A super short flow of the setup is available in this section of the document:
 7. Run `npm run seed` script to add some test data to your local database
 8. Run `npm run start:dev` to start the local server
 9. Play around with the API that's running on `http://localhost:3000/` by default. You can view the simple Swagger documentation by clicking on `http://localhost:3000/api`
-   1. If possible, start with GitHub API as it requires OAuth2 flow. In case you won't authenticate your GitHub account, the cronjob, scheduled for 23:59 each day won't be able to successfully perform metrics update operation, hence dashboards in Databox platform won't reflect the real state.
+   1. If possible, start with GitHub API as it requires [OAuth2 flow](http://localhost:3000/api/databox-challenge/authentication/GitHub). In case you won't authenticate your GitHub account, the cron job, scheduled for 23:59 each day won't be able to successfully perform metrics update operation, hence dashboards in Databox platform won't reflect the real state.
    2. Service also allows you to fetch, filter and sort the list of historically pushed data.
 10. When you're happy with the results, go to [pre-created dashboard](https://app.databox.com/datawall/e92939ee0b9635037b888d1aeb5d5e60145cbe865042b13) and check out the metrics we've pushed to the Databox API
 

@@ -1,5 +1,4 @@
-import { Injectable } from '@nestjs/common'
-import { Response } from 'express'
+import { Inject, Injectable } from '@nestjs/common'
 import { firstValueFrom, map } from 'rxjs'
 import { RequestDataEntity } from '../../../libs/db/entities/request-data.entity'
 import { DbWritingService } from '../../../libs/db/services/db-writing.service'
@@ -9,27 +8,24 @@ import { ListingParamsDto } from '../dtos/listing-params.dto'
 import { Metric } from '../../../shared/interfaces/metric.interface'
 import { ServiceProvider } from '../../../shared/enums/service-provider.enum'
 import { DataboxService } from '../../../vendors/databox/services/databox.service'
-import { GitHubService } from '../../../vendors/github/services/github.service'
-import { CoinCapService } from '../../../vendors/coincap/services/coincap.service'
-import { CoinCapChain } from '../../../vendors/coincap/enums/coincap-chain.enum'
 import { ManageRequestDataMapper } from '../mappers/manage-request-data.mapper'
 import { ManageRequestDataResponse } from '../responses/manage-request-data.response'
 import { ListManageRequestDataResponse } from '../responses/list-manage-request-data.response'
+import { DATA_SOURCE_SERVICE, DataSourceService } from '../../../vendors/data-sources/data-source.service.interface'
 
 @Injectable()
 export class ManageService {
   constructor(
     private readonly dbWritingService: DbWritingService,
-    private readonly databoxService: DataboxService,
-    private readonly gitHubService: GitHubService,
-    private readonly coinCapService: CoinCapService,
     private readonly dbListingService: DbListingService,
+    private readonly databoxService: DataboxService,
+    @Inject(DATA_SOURCE_SERVICE) private readonly dataSourceServices: DataSourceService[],
   ) {}
 
   /**
    * Return list of metrics from database based on listing (filtering) parameters
    */
-  getMetrics(params: ListingParamsDto): Promise<ListManageRequestDataResponse> {
+  async getMetrics(params: ListingParamsDto): Promise<ListManageRequestDataResponse> {
     const filtering = this.processFilteringParams(params)
     const page = params.page && params.page > 0 ? params.page - 1 : 0
 
@@ -43,9 +39,20 @@ export class ManageService {
   }
 
   /**
+   * Loops through all registered providers/vendors, fetches metrics and pushes them via Databox Push API
+   */
+  async fetchAndStoreMetricsForAllVendors(): Promise<ManageRequestDataResponse[]> {
+    return Promise.all(this.dataSourceServices.map(async (vendorService) => {
+      const vendorMetricsResponse = await vendorService.getMetrics()
+
+      return this.pushMultipleMetrics(vendorMetricsResponse.metrics, vendorMetricsResponse.serviceProvider)
+    }))
+  }
+
+  /**
    * Pushes multiple metrics to Databox API & creates a new row in DB based on the request status
    */
-  async pushMultipleMetrics(metrics: Metric[], serviceProvider: ServiceProvider): Promise<ManageRequestDataResponse> {
+  private async pushMultipleMetrics(metrics: Metric[], serviceProvider: ServiceProvider): Promise<ManageRequestDataResponse> {
     // First, we create the partial request data object
     const requestData: Partial<RequestDataEntity> = {
       serviceProvider,
@@ -71,57 +78,8 @@ export class ManageService {
   }
 
   /**
-   * Fetches data from CoinCap API, aggregates and maps it to internal metrics
+   * Process filtering parameters, requested from metric listing endpoint
    */
-  async fetchChainDataMetrics(chains: CoinCapChain[]): Promise<Metric[]> {
-    const metrics: Metric[] = []
-
-    // To get data for all relevant chains, we have to call the CoinCap integration service a couple of times
-    const chainData = await Promise.all(chains.map((chain) => this.coinCapService.getChainData(chain)))
-
-    // When data is successfully fetched, we have to map it to Databox format by creating key-value pairs
-    chainData.forEach((chainItem) => {
-      const { symbol, priceUsd, supply } = chainItem.data
-
-      const values: Metric[] = [
-        { key: `${symbol}_price_usd`, value: parseFloat(parseFloat(priceUsd).toFixed(2)) },
-        { key: `${symbol}_supply`, value: parseFloat(parseFloat(supply).toFixed(2)) },
-      ]
-
-      // The key-value pairs are then pushed into metrics array, which is returned to the client
-      metrics.push(...values)
-    })
-
-    return metrics
-  }
-
-  /**
-   * Fetches data from GitHub API and maps it to internal metrics if OAuth2 authentication flow has been successfully completed
-   */
-  async fetchGitHubMetrics(response: Response, code?: string): Promise<Metric[]> {
-    const metrics: Metric[] = []
-
-    // To get data for all relevant metrics, we have to call the GitHub integration service two times
-    const [ commitsSinceYesterday, openPullRequests ] = await Promise.all([
-      await this.gitHubService.getCommits(response, code),
-      await this.gitHubService.getPullRequests(response, code),
-    ])
-
-    // When data is successfully fetched, we have to map it to Databox format by creating key-value pairs
-    const values: Metric[] = [
-      { key: 'GitHub_commits_since_yesterday', value: commitsSinceYesterday.length },
-      { key: 'GitHub_open_pull_requests', value: openPullRequests.length },
-    ]
-
-    // The key-value pairs are then pushed into metrics array, which is returned to the client
-    metrics.push(...values)
-
-    return metrics
-  }
-
-  /**
-     * Process filtering parameters, requested from metric listing endpoint
-     */
   private processFilteringParams(params: ListingParamsDto): ListingFiltering {
     const { id, serviceProvider, numberOfKPIsSent, successfulRequest } = params
 

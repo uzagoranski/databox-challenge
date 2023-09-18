@@ -4,7 +4,7 @@ import { ConfigModule } from '@nestjs/config'
 import gitHubHttpConfig from './http/github-http.config'
 import { GitHubService } from './services/github.service'
 import { GitHubRequestOptionsFactory } from './http/github-request-options.factory'
-import { DbModule } from '../../libs/db/db.module'
+import { DbModule } from '../../../libs/db/db.module'
 import { GitHubAuthenticationService } from './services/github-authentication.service'
 
 @Module({

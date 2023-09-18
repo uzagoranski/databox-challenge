@@ -15,9 +15,7 @@ export class SchedulerService {
   async handleCron() {
     Logger.log(`Cron Job execution instantiated at ${new Date().toISOString()}. Daily sync of the metrics is starting.`)
 
-    // We specifically want to run requests separately, otherwise, we could use await Promise.all([...])
-    await firstValueFrom(this.httpService.get(`${this.selfUrl}/manage/metrics/CoinCap`))
-    await firstValueFrom(this.httpService.get(`${this.selfUrl}/manage/metrics/GitHub`))
+    await firstValueFrom(this.httpService.get(`${this.selfUrl}/manage/metrics/sync`))
 
     Logger.log(`Cron Job execution finished at ${new Date().toISOString()}. Daily sync of the metrics is done.`)
   }
