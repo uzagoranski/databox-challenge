@@ -26,11 +26,7 @@ jobs:
         run: npm ci
 
       - name: Lint code
-        uses: wearerequired/lint-action@v2
-        with:
-          eslint: true
-          prettier: true
-          tsc: true
+        run: npm run lint
 
       - name: Run tests
         run: npm run test:unit
