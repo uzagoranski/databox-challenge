@@ -37,7 +37,6 @@ export class DbListingService {
   private applyFiltering(query: SelectQueryBuilder<RequestDataEntity>, filtering: ListingFiltering): void {
     this.applyIdFilter(query, filtering.id)
     this.applyServiceProviderFilter(query, filtering.serviceProvider)
-    this.applyTimeOfSendingFilter(query, filtering.timeOfSending)
     this.applyNumberOfKPIsFilter(query, filtering.numberOfKPIsSent)
     this.applySuccessfulRequestFilter(query, filtering.successfulRequest)
   }
@@ -48,10 +47,6 @@ export class DbListingService {
 
   private applyServiceProviderFilter(query: SelectQueryBuilder<RequestDataEntity>, value?: ServiceProvider): void {
     value && query.andWhere('request_data.serviceProvider like :serviceProvider', { serviceProvider: `%${value}%` })
-  }
-
-  private applyTimeOfSendingFilter(query: SelectQueryBuilder<RequestDataEntity>, value?: string): void {
-    value && query.andWhere('request_data.timeOfSending like :timeOfSending', { timeOfSending: `%${value}%` })
   }
 
   private applyNumberOfKPIsFilter(query: SelectQueryBuilder<RequestDataEntity>, value?: number): void {

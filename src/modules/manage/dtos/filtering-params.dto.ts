@@ -1,5 +1,5 @@
 import { ApiPropertyOptional } from '@nestjs/swagger'
-import { IsBoolean, IsDateString, IsEnum, IsNumber, IsOptional, IsString } from 'class-validator'
+import { IsBoolean, IsEnum, IsNumber, IsOptional, IsString } from 'class-validator'
 import { Transform } from 'class-transformer'
 import { ListingFiltering } from '../../../libs/db/interfaces/listing-filtering.interface'
 import { ServiceProvider } from '../../../shared/enums/service-provider.enum'
@@ -14,12 +14,6 @@ export class FilteringParamsDto implements ListingFiltering {
   @IsEnum(ServiceProvider)
   @IsOptional()
     serviceProvider?: ServiceProvider
-
-  @ApiPropertyOptional({ example: '12-02-2023', description: 'Time of sending the request' })
-  @IsString()
-  @IsDateString()
-  @IsOptional()
-    timeOfSending?: string
 
   @ApiPropertyOptional({ example: 1, description: 'Amount of sent KPIs' })
   @IsNumber()

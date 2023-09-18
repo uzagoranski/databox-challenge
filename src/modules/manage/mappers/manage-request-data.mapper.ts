@@ -28,10 +28,6 @@ export class ManageRequestDataMapper {
         name: 'Request service provider',
       },
       {
-        id: ManageRequestDataFilteringType.TIME_OF_SENDING,
-        name: 'Time of sending the request',
-      },
-      {
         id: ManageRequestDataFilteringType.NUMBER_OF_KPIS_SENT,
         name: 'Number of KPIs sent via the request',
       },

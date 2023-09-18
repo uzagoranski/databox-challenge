@@ -123,12 +123,11 @@ export class ManageService {
      * Process filtering parameters, requested from metric listing endpoint
      */
   private processFilteringParams(params: ListingParamsDto): ListingFiltering {
-    const { id, serviceProvider, timeOfSending, numberOfKPIsSent, successfulRequest } = params
+    const { id, serviceProvider, numberOfKPIsSent, successfulRequest } = params
 
     return {
       id,
       serviceProvider,
-      timeOfSending,
       numberOfKPIsSent,
       successfulRequest,
     }
