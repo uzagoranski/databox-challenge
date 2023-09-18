@@ -1,0 +1,104 @@
+{
+	"info": {
+		"_postman_id": "2b19016d-fc40-44e9-befa-74790c041a81",
+		"name": "Databox Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8492560"
+	},
+	"item": [
+		{
+			"name": "Get listed metrics",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/databox-challenge/manage/metrics?serviceProvider=CoinCap&successfulRequest=true",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"databox-challenge",
+						"manage",
+						"metrics"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "b7a46ccf-fb85-4319-91e5-0a974b3e64de",
+							"disabled": true
+						},
+						{
+							"key": "serviceProvider",
+							"value": "CoinCap"
+						},
+						{
+							"key": "successfulRequest",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch CoinCap metrics",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/databox-challenge/manage/metrics/CoinCap",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"databox-challenge",
+						"manage",
+						"metrics",
+						"CoinCap"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch GitHub metrics",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/api/databox-challenge/manage/metrics/GitHub",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"api",
+						"databox-challenge",
+						"manage",
+						"metrics",
+						"GitHub"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
