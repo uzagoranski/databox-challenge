@@ -16,7 +16,7 @@ export class CoinCapChainResponse {
       changePercent24Hr: '-0.8101417214350335',
       vwap24Hr: '7175.0663247679233209',
     },
-    description: 'CoinCap response data',
+    description: 'CoinCap API response data',
   })
     data: CoinCapChainDataResponse
 }

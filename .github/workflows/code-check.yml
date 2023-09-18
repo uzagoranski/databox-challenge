@@ -11,7 +11,7 @@ on:
 
 jobs:
   run-linters:
-    name: Run linters
+    name: Run linter & tests
     runs-on: ubuntu-latest
 
     steps:
@@ -26,8 +26,11 @@ jobs:
       - name: Install Node.js dependencies
         run: npm ci
 
-      - name: Lint Action
+      - name: Lint code
         uses: wearerequired/lint-action@v2.3.0
         with:
           eslint: true
           prettier: true
+
+      - name: Run tests
+        run: npm run test:unit
