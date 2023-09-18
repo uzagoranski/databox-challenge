@@ -54,6 +54,12 @@ Although a [databox npm library](https://www.npmjs.com/package/databox) already 
 typings and support for asynchronous execution (since we're using TypeScript). For that reason we've built our own integration service with Databox Push API
 that is much more configurable and manageable.
 
+Adding new data sources is as easy as it gets. All you have to do is follow the next steps:
+- Create a new directory in the `src/vendors/data-sources` folder
+- Prepare an integration service that implements the `data-source.service.interface.ts` interface. That means it has to include 2 mandatory things: getMetrics function and serviceProvider property
+- Register your newly created integration service in the `data-source.module.ts` file by importing it at the top and adding it into providers & inject arrays (follow the example of the `GitHubService`)
+- After registering the integration service, everything else should happen automatically after calling the `/manage/metrics/sync` endpoint
+
 ## Potential improvements
 
 One of the major limitations in this project is the fact that it's a Backend Engineer Challenge, which means we don't have any frontend implemented for that matter.

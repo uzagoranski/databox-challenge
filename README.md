@@ -1,6 +1,6 @@
 <img src="https://cdn1.databox.com/images/logo/databox-dark.svg" width="50%" alt="databox-logo">
 
-# Databox Backend Engineer Challenge [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://tools.adidas-group.com/bitbucket/projects/MA/repos/hero-payments-gw/pull-requests)
+# Databox Backend Engineer Challenge [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://opensource.org/license/mit/) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/uzagoranski/databox-challenge/pulls)
 
 Databox Backend Engineer Challenge MS is an API to serve as a bridge between Databox API and 3rd party service providers (such as Facebook, Google Analytics etc.).
 
