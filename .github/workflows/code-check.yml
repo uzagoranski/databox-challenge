@@ -30,6 +30,7 @@ jobs:
         with:
           eslint: true
           prettier: true
+          tsc: true
 
       - name: Run tests
         run: npm run test:unit
