@@ -1,6 +1,6 @@
 import { INestApplication, Logger as NestLogger } from '@nestjs/common'
 import os from 'os'
-import { ExecutionHelper } from '../../../../src/shared/utils/helpers/execution.helper'
+import { ExecutionHelper } from '../../../../../src/shared/utils/helpers/execution.helper'
 
 describe('ExecutionHelper', () => {
   it('should log the expected messages', async () => {

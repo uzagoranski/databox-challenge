@@ -48,6 +48,12 @@ A super short flow of the setup is available in this section of the document:
    2. Service also allows you to fetch, filter and sort the list of historically pushed data.
 10. When you're happy with the results, go to [pre-created dashboard](https://app.databox.com/datawall/e92939ee0b9635037b888d1aeb5d5e60145cbe865042b13) and check out the metrics we've pushed to the Databox API
 
+## Notes
+
+Although a [databox npm library](https://www.npmjs.com/package/databox) already exists, we decided to not use it due to missing 
+typings and support for asynchronous execution (since we're using TypeScript). For that reason we've built our own integration service with Databox Push API
+that is much more configurable and manageable.
+
 ## Potential improvements
 
 One of the major limitations in this project is the fact that it's a Backend Engineer Challenge, which means we don't have any frontend implemented for that matter.

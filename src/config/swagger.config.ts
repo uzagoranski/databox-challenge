@@ -1,9 +1,9 @@
 export class SwaggerConfig {
-  static APP_DESCRIPTION = 'API to manage Databox metrics'
+  static readonly APP_DESCRIPTION = 'API to manage Databox metrics'
 
-  static APP_DOCS_PATH = 'api'
+  static readonly APP_DOCS_PATH = 'api'
 
-  static APP_DOCS_SERVER = 'http://localhost:3000'
+  static readonly APP_DOCS_SERVER = 'http://localhost:3000'
 
-  static APP_DOCS_FILENAME = 'swagger.json'
+  static readonly APP_DOCS_FILENAME = 'swagger.json'
 }
