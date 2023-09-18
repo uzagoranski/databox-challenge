@@ -6,7 +6,7 @@ Info, related to development process is available in the README.md file. This fi
 
 ## Architecture
 
-There was quite some research made when I was deciding what architecture approach to use. At the end, I decided to go with a
+There was quite some research made when we were deciding what architecture approach to use. At the end, we decided to go with a
 modified "Clean Architecture" approach, where our project is structured in the following way:
 - `.husky` - pre-commit and pre-push hooks
 - `src` - the most relevant directories and files, implementing the core logic and functionalities
@@ -34,7 +34,7 @@ modified "Clean Architecture" approach, where our project is structured in the f
 ## Flow
 
 A super short flow of the setup is available in this section of the document:
-1. Clone repository from GitHub via `git@github.com:uzagoranski/databox-challenge.git` command
+1. Clone repository from GitHub via `git clone git@github.com:uzagoranski/databox-challenge.git` command
 2. Contact [me](mailto:urozag@gmail.com) to get the .env file that has all secrets included. Paste that file into root directory of this project
 3. Run `npm install` script
 4. Run `docker-compose up` script
@@ -59,20 +59,20 @@ complete the flow. That can be achieved by following these steps:
    2. Otherwise, we'll (instantly) call GitHub API in the background and fetch the relevant metrics
 
 Second problem, introduced by the limited amount of time and required functionalities is the "hackish" way of storing authentication data.
-Since we're implementing a development application with no user login functionalities that would allow us to connect user data with
-GitHub account data we decided to always store only 1 instance of authentication data per service instance. That would be rather
+Since we're implementing a development application with no user login functionality that would allow us to connect user data with
+GitHub account data, we decided to always store only 1 instance of authentication data per service instance. That would be rather
 easily solved by implementing and enhancing the existing functionalities with a regular user management system.
 
 Another limitation is brought by the non-existing live deployment of the service. That means that unless someone would leave their
 machine with the service instance up and running, we wouldn't be able to reproduce the actual live behaviour of the cron jobs and schedulers.
-We also used a NestJS integrated cron job mechanism that can be replaced with some kind of cloud-based scheduling (event-driven) system, 
-such as AWS Lambda or GCP Cloud Scheduler etc.
+To emphasise important things, we also used the NestJS integrated cron job mechanism that can be easily replaced with some kind of cloud-based scheduling 
+(event-driven) system, such as AWS Lambda or GCP Cloud Scheduler etc. that ensures cron jobs are executed regularly.
 
-Last but not least, to achieve complete scalability, it would be welcome to make our service containerised and use a dedicated
-service for managing it such as Kubernetes and Docker. That way, we'd be able to use the built-in scaling capabilities such as
-HPAs, clustering, pods etc. After reviewing the queries, we could also put some indices onto relevant properties in our entities,
-that are regularly queried. As already mentioned, caching with Redis or some other cache-memory database comes in quite handy
-when data isn't frequently changed but is often requested.
+Last but not least, to achieve complete scalability, we could containerise our service by using some of the dedicated
+services for managing service orchestration, such as Kubernetes, Docker, Podman and similar. That way, we'd be able to use the 
+built-in scaling capabilities such as HPAs, clustering, pods etc. After reviewing the queries, we could also put some indices 
+onto relevant properties in our entities, that are regularly queried. As already mentioned, caching with Redis or some other 
+cache-memory database comes in quite handy when data isn't frequently changed but is often requested.
 
 ## Additional information
 - Link to the [pre-created dashboard](https://app.databox.com/datawall/e92939ee0b9635037b888d1aeb5d5e60145cbe865042b13) and check out the metrics we've pushed to the Databox API

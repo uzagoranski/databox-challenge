@@ -10,7 +10,7 @@ To be able to run the service, you must ensure you have the following tools inst
 
 - **Node.js**: version 20.6.1 or higher. You can download and install it from [here](https://nodejs.org/en/download/).
 
-> I encourage you to use [nvm](https://github.com/nvm-sh/nvm) to install, update and maintain multiple Node.js versions at the same time on your machine.
+> We encourage you to use [nvm](https://github.com/nvm-sh/nvm) to install, update and maintain multiple Node.js versions at the same time on your machine.
 
 In case you use macOS with [Homebrew package manager](https://brew.sh/), you can install it via the following commands:
 
