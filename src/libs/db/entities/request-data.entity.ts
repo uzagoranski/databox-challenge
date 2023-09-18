@@ -3,7 +3,7 @@ import { ServiceProvider } from '../../../shared/enums/service-provider.enum'
 import { Metric } from '../../../shared/interfaces/metric.interface'
 
 @Entity('request_data')
-export class RequestDataDB {
+export class RequestDataEntity {
   @PrimaryGeneratedColumn('uuid')
     id!: string
 

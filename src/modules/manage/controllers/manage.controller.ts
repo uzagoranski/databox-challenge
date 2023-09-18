@@ -3,35 +3,24 @@ import { ApiBadRequestResponse, ApiOperation, ApiTags } from '@nestjs/swagger'
 import { ApiOkResponse } from '@nestjs/swagger/dist/decorators/api-response.decorator'
 import { Res } from '@nestjs/common/decorators/http/route-params.decorator'
 import { Response } from 'express'
-import { ConfigService } from '@nestjs/config'
 import { ManageService } from '../services/manage.service'
 import { ServiceProvider } from '../../../shared/enums/service-provider.enum'
+import { ListingParamsDto } from '../dtos/listing-params.dto'
 import { CoinCapChain } from '../../../vendors/coincap/enums/coincap-chain.enum'
 import { ManageRequestDataResponse } from '../responses/manage-request-data.response'
+import { ListManageRequestDataResponse } from '../responses/list-manage-request-data.response'
 
 @ApiTags('Manage metrics')
 @Controller('manage/metrics')
 export class ManageController {
-  constructor(private manageService: ManageService, private configService: ConfigService) {}
+  constructor(private manageService: ManageService) {}
 
   @Get('')
   @ApiOperation({ summary: 'Returns a list of metrics' })
-  // @ApiOkResponse({ description: 'List of all metrics', type: ListManageRequestDataResponse })
+  @ApiOkResponse({ description: 'List of all metrics', type: ListManageRequestDataResponse })
   @ApiBadRequestResponse({ description: 'Bad request' })
-  getListedMetrics(): Promise<any> {
-    return this.manageService.pushMultipleMetrics(
-      [
-        {
-          key: 'Test_metric',
-          value: 321,
-        },
-        {
-          key: 'Test_metric',
-          value: 322,
-        },
-      ],
-      ServiceProvider.GITHUB,
-    )
+  getListedMetrics(@Query() params: ListingParamsDto): Promise<ListManageRequestDataResponse> {
+    return this.manageService.getMetrics(params)
   }
 
   @Get('/CoinCap')

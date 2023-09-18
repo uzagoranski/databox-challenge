@@ -1,6 +1,6 @@
 import { INestApplication, Logger as NestLogger } from '@nestjs/common'
 import os from 'os'
-import { ExecutionHelper } from './execution.helper'
+import { ExecutionHelper } from '../../../../src/shared/utils/helpers/execution.helper'
 
 describe('ExecutionHelper', () => {
   it('should log the expected messages', async () => {
@@ -25,8 +25,5 @@ describe('ExecutionHelper', () => {
     expect(debug).toHaveBeenCalledWith(`Node Version: ${process.version}`)
     expect(debug).toHaveBeenCalledWith('-------------------------------')
     expect(debug).toHaveBeenCalledWith(`${fakeService} started at ${new Date().toDateString()} on http://fake-url`)
-
-    // This does not work
-    // expect(useLogger).toHaveBeenCalledWith("fake-logger")
   })
 })

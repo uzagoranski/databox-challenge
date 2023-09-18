@@ -4,7 +4,7 @@
   "collectCoverage": false,
   "coveragePathIgnorePatterns": ["/node_modules/", "/dist", ".mock.ts", ".module.ts", ".dto.ts", ".entity.ts", ".response.ts", ".type.ts", "generate-swagger.ts", "main.ts", "config.ts", ".d.ts", ".enum.ts"],
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
-  "rootDir": "src",
+  "rootDir": "test",
   "testRegex": ".spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "@swc/jest"

@@ -1,13 +1,13 @@
 import { Module } from '@nestjs/common'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { RequestDataDB } from './entities/request-data-db.entity'
-import { AuthenticationDB } from './entities/authentication-db.entity'
+import { RequestDataEntity } from './entities/request-data.entity'
+import { AuthenticationEntity } from './entities/authentication.entity'
 import { DbListingService } from './services/db-listing.service'
 import { DbFetchingService } from './services/db-fetching.service'
 import { DbWritingService } from './services/db-writing.service'
 
 @Module({
-  imports: [ TypeOrmModule.forFeature([ RequestDataDB, AuthenticationDB ]) ],
+  imports: [ TypeOrmModule.forFeature([ RequestDataEntity, AuthenticationEntity ]) ],
   providers: [ DbListingService, DbFetchingService, DbWritingService ],
   exports: [ DbListingService, DbFetchingService, DbWritingService ],
 })

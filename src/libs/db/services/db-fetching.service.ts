@@ -1,17 +1,17 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { RequestDataDB } from '../entities/request-data-db.entity'
-import { AuthenticationDB } from '../entities/authentication-db.entity'
+import { RequestDataEntity } from '../entities/request-data.entity'
+import { AuthenticationEntity } from '../entities/authentication.entity'
 
 @Injectable()
 export class DbFetchingService {
   constructor(
-    @InjectRepository(RequestDataDB) private readonly requestDataRepository: Repository<RequestDataDB>,
-    @InjectRepository(AuthenticationDB) private readonly authenticationRepository: Repository<AuthenticationDB>,
+    @InjectRepository(RequestDataEntity) private readonly requestDataRepository: Repository<RequestDataEntity>,
+    @InjectRepository(AuthenticationEntity) private readonly authenticationRepository: Repository<AuthenticationEntity>,
   ) {}
 
-  getRequestDataById(id: string): Promise<RequestDataDB | undefined> {
+  getRequestDataById(id: string): Promise<RequestDataEntity | undefined> {
     const query = this.requestDataRepository.createQueryBuilder('request_data')
 
     query.where('request_data.id = :id', { id })
@@ -19,7 +19,7 @@ export class DbFetchingService {
     return query.getOne()
   }
 
-  getAuthentication(): Promise<AuthenticationDB | undefined> {
+  getAuthentication(): Promise<AuthenticationEntity | undefined> {
     return this.authenticationRepository.createQueryBuilder('authentication').getOne()
   }
 }

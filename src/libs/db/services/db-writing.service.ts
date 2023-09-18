@@ -1,21 +1,21 @@
 import { Injectable } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
-import { RequestDataDB } from '../entities/request-data-db.entity'
-import { AuthenticationDB } from '../entities/authentication-db.entity'
+import { RequestDataEntity } from '../entities/request-data.entity'
+import { AuthenticationEntity } from '../entities/authentication.entity'
 
 @Injectable()
 export class DbWritingService {
   constructor(
-    @InjectRepository(RequestDataDB) private readonly requestDataRepository: Repository<RequestDataDB>,
-    @InjectRepository(AuthenticationDB) private readonly authenticationRepository: Repository<AuthenticationDB>,
+    @InjectRepository(RequestDataEntity) private readonly requestDataRepository: Repository<RequestDataEntity>,
+    @InjectRepository(AuthenticationEntity) private readonly authenticationRepository: Repository<AuthenticationEntity>,
   ) {}
 
-  saveRequestData(requestData: Partial<RequestDataDB>): Promise<RequestDataDB> {
+  saveRequestData(requestData: Partial<RequestDataEntity>): Promise<RequestDataEntity> {
     return this.requestDataRepository.save(requestData)
   }
 
-  async saveAuthentication(authentication: Partial<AuthenticationDB>): Promise<AuthenticationDB> {
+  async saveAuthentication(authentication: Partial<AuthenticationEntity>): Promise<AuthenticationEntity> {
     await this.authenticationRepository.clear()
 
     return this.authenticationRepository.save(authentication)

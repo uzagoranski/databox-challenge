@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
 
 @Entity('authentication')
-export class AuthenticationDB {
+export class AuthenticationEntity {
   @PrimaryGeneratedColumn('uuid')
     id!: string
 

@@ -1,15 +1,20 @@
 import { Injectable } from '@nestjs/common'
 import { Response } from 'express'
-import { DataboxService } from '../../../vendors/databox/services/databox.service'
+import { firstValueFrom, map } from 'rxjs'
+import { RequestDataEntity } from '../../../libs/db/entities/request-data.entity'
 import { DbWritingService } from '../../../libs/db/services/db-writing.service'
+import { DbListingService } from '../../../libs/db/services/db-listing.service'
+import { ListingFiltering } from '../../../libs/db/interfaces/listing-filtering.interface'
+import { ListingParamsDto } from '../dtos/listing-params.dto'
 import { Metric } from '../../../shared/interfaces/metric.interface'
 import { ServiceProvider } from '../../../shared/enums/service-provider.enum'
-import { RequestDataDB } from '../../../libs/db/entities/request-data-db.entity'
-import { CoinCapChain } from '../../../vendors/coincap/enums/coincap-chain.enum'
+import { DataboxService } from '../../../vendors/databox/services/databox.service'
 import { GitHubService } from '../../../vendors/github/services/github.service'
 import { CoinCapService } from '../../../vendors/coincap/services/coincap.service'
+import { CoinCapChain } from '../../../vendors/coincap/enums/coincap-chain.enum'
 import { ManageRequestDataMapper } from '../mappers/manage-request-data.mapper'
 import { ManageRequestDataResponse } from '../responses/manage-request-data.response'
+import { ListManageRequestDataResponse } from '../responses/list-manage-request-data.response'
 
 @Injectable()
 export class ManageService {
@@ -18,14 +23,31 @@ export class ManageService {
     private readonly databoxService: DataboxService,
     private readonly gitHubService: GitHubService,
     private readonly coinCapService: CoinCapService,
+    private readonly dbListingService: DbListingService,
   ) {}
+
+  /**
+   * Return list of metrics from database based on listing (filtering) parameters
+   */
+  getMetrics(params: ListingParamsDto): Promise<ListManageRequestDataResponse> {
+    const filtering = this.processFilteringParams(params)
+    const page = params.page && params.page > 0 ? params.page - 1 : 0
+
+    return firstValueFrom(this.dbListingService.getListedRequestData(filtering, params.limit, page).pipe(
+      map((result) => ({
+        ...result,
+        items: result.items.map((requestData) => ManageRequestDataMapper.mapRequestDataDbToManageRequestDataResponse(requestData)),
+        filtering: ManageRequestDataMapper.mapFilteringToManageRequestDataFilteringResponse(filtering),
+      })),
+    ))
+  }
 
   /**
    * Pushes multiple metrics to Databox API & creates a new row in DB based on the request status
    */
   async pushMultipleMetrics(metrics: Metric[], serviceProvider: ServiceProvider): Promise<ManageRequestDataResponse> {
     // First, we create the partial request data object
-    const requestData: Partial<RequestDataDB> = {
+    const requestData: Partial<RequestDataEntity> = {
       serviceProvider,
       metricsSent: metrics,
       numberOfKPIsSent: metrics.length,
@@ -97,21 +119,18 @@ export class ManageService {
     return metrics
   }
 
-  // /**
-  //  * Return list of tokens from database based on listing (sorting, filtering) parameters
-  //  */
-  // getMetrics(params: ListingParamsDto): Observable<ListManageTokenResponse> {
-  //   const sorting = this.processSortingParam(params.sorting)
-  //   const filtering = this.processFilteringParams(params)
-  //   const page = params.page && params.page > 0 ? params.page - 1 : 0
-  //
-  //   return this.dbListingService.getListedTokens(sorting, filtering, params.limit, page).pipe(
-  //     map((result) => ({
-  //       ...result,
-  //       items: result.items.map((token) => ManageTokenMapper.mapTokenDbToManageTokenResponse(token)),
-  //       sorting: ManageTokenMapper.mapSortingToManageTokenSortingResponse(params.sorting),
-  //       filtering: ManageTokenMapper.mapFilteringToManageTokenFilteringResponse(filtering),
-  //     })),
-  //   )
-  // }
+  /**
+     * Process filtering parameters, requested from metric listing endpoint
+     */
+  private processFilteringParams(params: ListingParamsDto): ListingFiltering {
+    const { id, serviceProvider, timeOfSending, numberOfKPIsSent, successfulRequest } = params
+
+    return {
+      id,
+      serviceProvider,
+      timeOfSending,
+      numberOfKPIsSent,
+      successfulRequest,
+    }
+  }
 }

@@ -1,11 +1,11 @@
-import { RequestDataDB } from '../../../libs/db/entities/request-data-db.entity'
+import { RequestDataEntity } from '../../../libs/db/entities/request-data.entity'
 import { ManageRequestDataResponse } from '../responses/manage-request-data.response'
 import { ManageRequestDataFilteringResponse } from '../responses/manage-request-data-filtering.response'
 import { ListingFiltering } from '../../../libs/db/interfaces/listing-filtering.interface'
 import { ManageRequestDataFilteringType } from '../enums/manage-request-data-filtering-type.enum'
 
 export class ManageRequestDataMapper {
-  static mapRequestDataDbToManageRequestDataResponse(requestData: RequestDataDB): ManageRequestDataResponse {
+  static mapRequestDataDbToManageRequestDataResponse(requestData: RequestDataEntity): ManageRequestDataResponse {
     return {
       id: requestData.id,
       service_provider: requestData.serviceProvider,

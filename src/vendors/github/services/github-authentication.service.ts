@@ -6,7 +6,7 @@ import { GitHubRequestOptionsFactory } from '../http/github-request-options.fact
 import { DbFetchingService } from '../../../libs/db/services/db-fetching.service'
 import { GitHubAuthenticationResponse } from '../responses/github-authentication.response'
 import { DbWritingService } from '../../../libs/db/services/db-writing.service'
-import { AuthenticationDB } from '../../../libs/db/entities/authentication-db.entity'
+import { AuthenticationEntity } from '../../../libs/db/entities/authentication.entity'
 
 @Injectable()
 export class GitHubAuthenticationService {
@@ -20,7 +20,7 @@ export class GitHubAuthenticationService {
   /**
    * Initiate OAuth authentication flow in order to be able to access GitHub API
    */
-  async authenticateUser(res: Response, code?: string): Promise<AuthenticationDB> {
+  async authenticateUser(res: Response, code?: string): Promise<AuthenticationEntity> {
     const { authUrl, clientId, clientSecret } = this.gitHubRequestOptionsFactory.getConfig()
 
     // If code is provided in the request, that means we're in the 2nd step of OAuth2 flow, requesting the actual access_token from the GitHub API
@@ -57,11 +57,11 @@ export class GitHubAuthenticationService {
     return authentication
   }
 
-  private async saveAuthenticationData(authenticationResponse: GitHubAuthenticationResponse): Promise<AuthenticationDB> {
+  private async saveAuthenticationData(authenticationResponse: GitHubAuthenticationResponse): Promise<AuthenticationEntity> {
     const accessTokenExpiresAt = new Date()
     accessTokenExpiresAt.setSeconds(accessTokenExpiresAt.getSeconds() + authenticationResponse.expires_in)
 
-    const authentication: Partial<AuthenticationDB> = {
+    const authentication: Partial<AuthenticationEntity> = {
       accessToken: authenticationResponse.access_token,
       accessTokenExpiresAt,
       refreshToken: authenticationResponse.refresh_token,
