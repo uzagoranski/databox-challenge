@@ -80,6 +80,9 @@ machine with the service instance up and running, we wouldn't be able to reprodu
 To emphasise important things, we also used the NestJS integrated cron job mechanism that can be easily replaced with some kind of cloud-based scheduling 
 (event-driven) system, such as AWS Lambda or GCP Cloud Scheduler etc. that ensures cron jobs are executed regularly.
 
+It's also important to emphasise we've used GitHub Actions in the scope of this repository. Although we used it for a
+super simple task such as linting, it's a good indication of what can be done using the capabilities of GitHub built-in features.
+
 Last but not least, to achieve complete scalability, we could containerise our service by using some of the dedicated
 services for managing service orchestration, such as Kubernetes, Docker, Podman and similar. That way, we'd be able to use the 
 built-in scaling capabilities such as HPAs, clustering, pods etc. After reviewing the queries, we could also put some indices 
