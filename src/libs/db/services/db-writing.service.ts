@@ -20,4 +20,8 @@ export class DbWritingService {
 
     return this.authenticationRepository.save(authentication)
   }
+
+  async deleteAuthentication(): Promise<void> {
+    return this.authenticationRepository.clear()
+  }
 }

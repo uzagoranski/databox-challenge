@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common'
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { ManageModule } from './modules/manage/manage.module'
 import { TypeOrmConfig } from './config/typeorm.config'
+import { AuthenticationModule } from './modules/authentication/authentication.module'
+import { ManageModule } from './modules/manage/manage.module'
 import { SchedulerModule } from './modules/schedulers/scheduler.module'
 
 @Module({
@@ -14,6 +15,7 @@ import { SchedulerModule } from './modules/schedulers/scheduler.module'
       inject: [ ConfigService ],
       useClass: TypeOrmConfig,
     }),
+    AuthenticationModule,
     ManageModule,
     SchedulerModule,
   ],
