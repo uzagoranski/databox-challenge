@@ -18,6 +18,9 @@ export class CoinCapService implements DataSourceService {
 
   serviceProvider = ServiceProvider.COINCAP
 
+  /**
+   * Return a mapped metrics response, including metrics array and service provider
+   */
   async getMetrics(): Promise<GetMetrics> {
     const metricsResponse: GetMetrics = {
       serviceProvider: this.serviceProvider,

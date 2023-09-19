@@ -19,6 +19,9 @@ export class GitHubService implements DataSourceService {
 
   serviceProvider = ServiceProvider.GITHUB
 
+  /**
+   * Return a mapped metrics response, including metrics array and service provider
+   */
   async getMetrics(): Promise<GetMetrics> {
     let authentication = await this.gitHubAuthenticationService.getAuthenticationData()
 
@@ -27,7 +30,7 @@ export class GitHubService implements DataSourceService {
       metrics: [],
     }
 
-    // Using early return to avoid calling the GitHub API and getting an error
+    // We're using an early return to avoid calling the GitHub API if no authentication is present and consequently getting an error
     if (!authentication) {
       return metricsResponse
     }
@@ -56,7 +59,7 @@ export class GitHubService implements DataSourceService {
   }
 
   /**
-   * Fetch commit data for selected repository from GitHub API
+   * Fetch commit data for selected repository (currently configured in the .env file) from GitHub API
    */
   private async getCommits(authentication: AuthenticationEntity): Promise<any[]> {
     const yesterday = new Date()
@@ -68,7 +71,7 @@ export class GitHubService implements DataSourceService {
   }
 
   /**
-   * Fetch pull request data for selected repository from GitHub API
+   * Fetch pull request data for selected repository (currently configured in the .env file) from GitHub API
    */
   private async getPullRequests(authentication: AuthenticationEntity): Promise<any[]> {
     const path = this.gitHubRequestOptionsFactory.buildUrl(`pulls?state=open&per_page=100`)
@@ -76,6 +79,9 @@ export class GitHubService implements DataSourceService {
     return this.fetchData(path, authentication)
   }
 
+  /**
+   * Generic fetch data function, collecting all relevant data and actually calling the API
+   */
   private async fetchData(path: string, authentication: AuthenticationEntity): Promise<any[]> {
     try {
       const options = this.gitHubRequestOptionsFactory.createFormRequestOptions(authentication?.accessToken)

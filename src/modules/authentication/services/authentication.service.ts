@@ -13,7 +13,7 @@ export class AuthenticationService {
   ) {}
 
   /**
-   * Initialise OAuth authentication flow in order to be able to access GitHub API
+   * Initialise OAuth2 authentication flow in order to be able to access GitHub API
    */
   async authenticateGitHubAccount(response: Response, code?: string): Promise<AuthenticationResponse | null> {
     const authentication = await this.gitHubAuthenticationService.authenticateUser(response, code)

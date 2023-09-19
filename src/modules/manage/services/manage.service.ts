@@ -27,7 +27,7 @@ export class ManageService {
   ) {}
 
   /**
-   * Return list of metrics from database based on listing (filtering) parameters
+   * Return a list of metrics from database based on listing (filtering) parameters
    */
   async getMetrics(params: ListingParamsDto): Promise<ListManageRequestDataResponse> {
     const filtering = this.processFilteringParams(params)
@@ -43,7 +43,7 @@ export class ManageService {
   }
 
   /**
-   * Loops through all registered providers/vendors, fetches metrics and pushes them via Databox Push API
+   * Loop through all registered providers/vendors, fetch metrics and push them via Databox Push API
    */
   async fetchAndStoreMetricsForAllVendors(): Promise<ManageRequestDataResponse[]> {
     // We'll set up a batching interval to avoid throttling on Databox Push API side
@@ -78,7 +78,7 @@ export class ManageService {
   }
 
   /**
-   * Pushes multiple metrics to Databox API & creates a new row in DB based on the request status
+   * Push multiple metrics to Databox API & create a new row in DB based on the request status
    */
   private async pushMultipleMetrics(metrics: Metric[], serviceProvider: ServiceProvider): Promise<ManageRequestDataResponse> {
     // First, we create the partial request data object
