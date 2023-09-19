@@ -3,7 +3,6 @@ import { ManageRequestDataFilteringResponse } from '../../src/modules/manage/res
 import { ManageRequestDataFilteringType } from '../../src/modules/manage/enums/manage-request-data-filtering-type.enum'
 import { RequestDataEntity } from '../../src/libs/db/entities/request-data.entity'
 import { ListManageRequestDataResponse } from '../../src/modules/manage/responses/list-manage-request-data.response'
-import { DataboxPushMultipleMetricsSuccessResponse } from '../../src/vendors/databox/responses/databox-push-multiple-metrics-success.response'
 import { GetMetrics } from '../../src/shared/interfaces/get-metrics.interface'
 import { Pagination } from '../../src/libs/db/interfaces/pagination.interface'
 import { ManageRequestDataResponse } from '../../src/modules/manage/responses/manage-request-data.response'
@@ -76,12 +75,6 @@ export const GET_METRICS: GetMetrics = {
       value: 5,
     },
   ],
-}
-
-export const DATABOX_PUSH_MULTIPLE_METRICS_SUCCESS_RESPONSE: DataboxPushMultipleMetricsSuccessResponse = {
-  status: 'OK',
-  message: 'Successfully pushed 1 data entry!',
-  id: '1259cb53-5274-4ac0-bf2d-0e337bd8a002',
 }
 
 export const MANAGE_REQUEST_DATA_RESPONSE: ManageRequestDataResponse[] = [{

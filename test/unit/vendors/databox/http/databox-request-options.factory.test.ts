@@ -1,4 +1,5 @@
-import { DATABOX_HTTP_CONFIG, HTTP_MODULE_OPTIONS } from '../../../../__mocks__/databox-request-options.factory.mock'
+import { HTTP_MODULE_OPTIONS } from '../../../../__mocks__/databox-request-options.factory.mock'
+import { DATABOX_HTTP_CONFIG } from '../../../../__mocks__/databox.service.mock'
 import { DataboxRequestOptionsFactory } from '../../../../../src/vendors/databox/http/databox-request-options.factory'
 import { DataboxHttpConfig } from '../../../../../src/vendors/databox/interfaces/databox-config.interface'
 

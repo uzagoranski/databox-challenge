@@ -1,20 +1,20 @@
 import { of } from 'rxjs'
 import { Mock } from 'ts-mockery'
 import { ConfigService } from '@nestjs/config'
-import {
-  MANAGE_REQUEST_DATA_ENTITY,
-  LIST_MANAGE_REQUEST_DATA_RESPONSE,
-  DATABOX_PUSH_MULTIPLE_METRICS_SUCCESS_RESPONSE,
-  GET_METRICS,
-  PAGINATED_REQUEST_DATA, MANAGE_REQUEST_DATA_RESPONSE,
-} from '../../../../__mocks__/manage.service.mock'
-import { ServiceProvider } from '../../../../../src/shared/enums/service-provider.enum'
-import { ListingParamsDto } from '../../../../../src/modules/manage/dtos/listing-params.dto'
 import { ManageService } from '../../../../../src/modules/manage/services/manage.service'
 import { DataSourceService } from '../../../../../src/vendors/data-sources/data-source.service.interface'
 import { DataboxService } from '../../../../../src/vendors/databox/services/databox.service'
 import { DbListingService } from '../../../../../src/libs/db/services/db-listing.service'
 import { DbWritingService } from '../../../../../src/libs/db/services/db-writing.service'
+import { ServiceProvider } from '../../../../../src/shared/enums/service-provider.enum'
+import { ListingParamsDto } from '../../../../../src/modules/manage/dtos/listing-params.dto'
+import { DATABOX_PUSH_MULTIPLE_METRICS_SUCCESS_RESPONSE } from '../../../../__mocks__/databox.service.mock'
+import {
+  MANAGE_REQUEST_DATA_ENTITY,
+  LIST_MANAGE_REQUEST_DATA_RESPONSE,
+  GET_METRICS,
+  PAGINATED_REQUEST_DATA, MANAGE_REQUEST_DATA_RESPONSE,
+} from '../../../../__mocks__/manage.service.mock'
 
 describe('ManageService', () => {
   const get = jest.fn()
