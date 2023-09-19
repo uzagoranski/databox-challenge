@@ -10,7 +10,7 @@ import {
   DATABOX_PUSH_MULTIPLE_METRICS_SUCCESS_RESPONSE,
   DATABOX_REQUEST_METRICS_ARRAY,
 } from '../../../../__mocks__/databox.service.mock'
-import { HTTP_MODULE_OPTIONS, HTTP_MODULE_OPTIONS_MISSING_AUTH } from '../../../../__mocks__/databox-request-options.factory.mock'
+import { DATABOX_HTTP_MODULE_OPTIONS, DATABOX_HTTP_MODULE_OPTIONS_NO_AUTH } from '../../../../__mocks__/databox-request-options.factory.mock'
 
 describe('DataboxService', () => {
   const post = jest.fn()
@@ -30,25 +30,25 @@ describe('DataboxService', () => {
 
     test('should be called using expected params and return expected response', async () => {
       post.mockReturnValue(of({ data: DATABOX_PUSH_MULTIPLE_METRICS_SUCCESS_RESPONSE }))
-      createFormRequestOptions.mockReturnValue(HTTP_MODULE_OPTIONS)
+      createFormRequestOptions.mockReturnValue(DATABOX_HTTP_MODULE_OPTIONS)
 
       const result = await databoxService.pushMultipleMetrics(DATABOX_METRICS_ARRAY)
 
-      expect(post).toHaveBeenCalledWith(DATABOX_HTTP_CONFIG.baseUrl, { data: DATABOX_REQUEST_METRICS_ARRAY }, HTTP_MODULE_OPTIONS)
+      expect(post).toHaveBeenCalledWith(DATABOX_HTTP_CONFIG.baseUrl, { data: DATABOX_REQUEST_METRICS_ARRAY }, DATABOX_HTTP_MODULE_OPTIONS)
 
       expect(result).toEqual(DATABOX_PUSH_MULTIPLE_METRICS_SUCCESS_RESPONSE)
     })
 
-    test('should be called using wrong authentication and return erroneous response', async () => {
+    test('should be called using no authentication and return erroneous response', async () => {
       post.mockImplementation(() => {
         throw new Error(DATABOX_PUSH_MULTIPLE_METRICS_ERRONEOUS_RESPONSE.message)
       })
-      createFormRequestOptions.mockReturnValue(HTTP_MODULE_OPTIONS_MISSING_AUTH)
+      createFormRequestOptions.mockReturnValue(DATABOX_HTTP_MODULE_OPTIONS_NO_AUTH)
 
       try {
         await databoxService.pushMultipleMetrics(DATABOX_METRICS_ARRAY)
       } catch (e) {
-        expect(post).toHaveBeenCalledWith(DATABOX_HTTP_CONFIG.baseUrl, { data: DATABOX_REQUEST_METRICS_ARRAY }, HTTP_MODULE_OPTIONS_MISSING_AUTH)
+        expect(post).toHaveBeenCalledWith(DATABOX_HTTP_CONFIG.baseUrl, { data: DATABOX_REQUEST_METRICS_ARRAY }, DATABOX_HTTP_MODULE_OPTIONS_NO_AUTH)
 
         return expect(post).toThrowError()
       }

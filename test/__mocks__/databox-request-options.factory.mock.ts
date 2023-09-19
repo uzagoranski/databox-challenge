@@ -1,6 +1,6 @@
 import { HttpModuleOptions } from '@nestjs/axios'
 
-export const HTTP_MODULE_OPTIONS: HttpModuleOptions = {
+export const DATABOX_HTTP_MODULE_OPTIONS: HttpModuleOptions = {
   headers: {
     'User-Agent': 'databox-js/2.0.1',
     'Content-Type': 'application/json',
@@ -12,7 +12,7 @@ export const HTTP_MODULE_OPTIONS: HttpModuleOptions = {
   },
 }
 
-export const HTTP_MODULE_OPTIONS_MISSING_AUTH: HttpModuleOptions = {
+export const DATABOX_HTTP_MODULE_OPTIONS_NO_AUTH: HttpModuleOptions = {
   headers: {
     'User-Agent': 'databox-js/2.0.1',
     'Content-Type': 'application/json',

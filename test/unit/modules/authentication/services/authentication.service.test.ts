@@ -1,9 +1,9 @@
 import { Mock } from 'ts-mockery'
 import { Response } from 'express'
-import { AUTHENTICATION_ENTITY, AUTHENTICATION_RESPONSE } from '../../../../__mocks__/authentication.service.mock'
 import { DbWritingService } from '../../../../../src/libs/db/services/db-writing.service'
 import { GitHubAuthenticationService } from '../../../../../src/vendors/data-sources/github/services/github-authentication.service'
 import { AuthenticationService } from '../../../../../src/modules/authentication/services/authentication.service'
+import { AUTHENTICATION_ENTITY, AUTHENTICATION_RESPONSE } from '../../../../__mocks__/authentication.service.mock'
 
 describe('AuthenticationService', () => {
   const authenticateUser = jest.fn()

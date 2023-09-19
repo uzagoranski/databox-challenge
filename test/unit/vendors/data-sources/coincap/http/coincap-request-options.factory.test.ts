@@ -1,7 +1,7 @@
-import { COINCAP_HTTP_CONFIG } from '../../../../../__mocks__/coincap-request-options.factory.mock'
 import { CoinCapHttpConfig } from '../../../../../../src/vendors/data-sources/coincap/interfaces/coincap-config.interface'
 import { CoinCapRequestOptionsFactory } from '../../../../../../src/vendors/data-sources/coincap/http/coincap-request-options.factory'
 import { CoinCapChain } from '../../../../../../src/vendors/data-sources/coincap/enums/coincap-chain.enum'
+import { COINCAP_HTTP_CONFIG } from '../../../../../__mocks__/coincap-request-options.factory.mock'
 
 describe('CoinCapRequestOptionsFactory', () => {
   const coinCapHttpConfig: CoinCapHttpConfig = COINCAP_HTTP_CONFIG
