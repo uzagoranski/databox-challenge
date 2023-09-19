@@ -12,9 +12,6 @@ jobs:
   run-linters:
     name: Run linter & tests
     runs-on: ubuntu-latest
-    uses: szenius/set-timezone@v1.2
-    with:
-      timezoneLinux: "CEST"
 
     steps:
       - name: Check out Git repository
@@ -33,5 +30,6 @@ jobs:
 
       - name: Run tests
         run: npm run test:unit
+        uses: szenius/set-timezone@v1.2
         with:
-          timezoneLinux:
+          timezoneLinux: "CEST"
