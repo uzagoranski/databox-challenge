@@ -47,11 +47,7 @@ export class GitHubAuthenticationService {
     // Otherwise, we want to check, if access_token, stored in our DB is still valid. If not, we'll call GitHub API
     // with our refresh_token and request a new access token that will allow us to fetch relevant data.
     if (authentication.accessTokenExpiresAt < new Date()) {
-      const response = await firstValueFrom(
-        this.httpService.get<GitHubAuthenticationResponse>(`${authUrl}/access_token?client_id=${clientId}&client_secret=${clientSecret}&grant_type=refresh_token&refresh_token=${authentication.refreshToken}`, { headers: { Accept: 'application/json' } }),
-      )
-
-      return this.saveAuthenticationData(response.data)
+      return this.updateAuthenticationDataIfExpired(authentication)
     }
 
     return authentication
@@ -62,6 +58,16 @@ export class GitHubAuthenticationService {
    */
   async getAuthenticationData(): Promise<AuthenticationEntity | null> {
     return this.dbFetchingService.getAuthentication()
+  }
+
+  async updateAuthenticationDataIfExpired(authentication: AuthenticationEntity): Promise<AuthenticationEntity> {
+    const { authUrl, clientId, clientSecret } = this.gitHubRequestOptionsFactory.getConfig()
+
+    const response = await firstValueFrom(
+      this.httpService.get<GitHubAuthenticationResponse>(`${authUrl}/access_token?client_id=${clientId}&client_secret=${clientSecret}&grant_type=refresh_token&refresh_token=${authentication.refreshToken}`, { headers: { Accept: 'application/json' } }),
+    )
+
+    return this.saveAuthenticationData(response.data)
   }
 
   private async saveAuthenticationData(authenticationResponse: GitHubAuthenticationResponse): Promise<AuthenticationEntity> {

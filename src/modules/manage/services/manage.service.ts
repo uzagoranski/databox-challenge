@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common'
+import { Inject, Injectable, Logger } from '@nestjs/common'
 import { firstValueFrom, map } from 'rxjs'
 import { RequestDataEntity } from '../../../libs/db/entities/request-data.entity'
 import { DbWritingService } from '../../../libs/db/services/db-writing.service'
@@ -42,11 +42,17 @@ export class ManageService {
    * Loops through all registered providers/vendors, fetches metrics and pushes them via Databox Push API
    */
   async fetchAndStoreMetricsForAllVendors(): Promise<ManageRequestDataResponse[]> {
-    return Promise.all(this.dataSourceServices.map(async (vendorService) => {
-      const vendorMetricsResponse = await vendorService.getMetrics()
+    const responses = await Promise.all(this.dataSourceServices.map(async (vendorService) => {
+      try {
+        const vendorMetricsResponse = await vendorService.getMetrics()
 
-      return this.pushMultipleMetrics(vendorMetricsResponse.metrics, vendorMetricsResponse.serviceProvider)
+        return this.pushMultipleMetrics(vendorMetricsResponse.metrics, vendorMetricsResponse.serviceProvider)
+      } catch (e) {
+        Logger.error(e)
+      }
     }))
+
+    return responses.filter((data) => data)
   }
 
   /**

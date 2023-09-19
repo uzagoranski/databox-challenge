@@ -20,7 +20,7 @@ export class GitHubService implements DataSourceService {
   serviceProvider = ServiceProvider.GITHUB
 
   async getMetrics(): Promise<GetMetrics> {
-    const authentication = await this.gitHubAuthenticationService.getAuthenticationData()
+    let authentication = await this.gitHubAuthenticationService.getAuthenticationData()
 
     const metricsResponse: GetMetrics = {
       serviceProvider: this.serviceProvider,
@@ -30,6 +30,11 @@ export class GitHubService implements DataSourceService {
     // Using early return to avoid calling the GitHub API and getting an error
     if (!authentication) {
       return metricsResponse
+    }
+
+    // If access token has expired, we have to update it via GitHub API by sending the refresh token
+    if (authentication.accessTokenExpiresAt < new Date()) {
+      authentication = await this.gitHubAuthenticationService.updateAuthenticationDataIfExpired(authentication)
     }
 
     // To get data for all relevant metrics, we have to call the GitHub integration service two times
