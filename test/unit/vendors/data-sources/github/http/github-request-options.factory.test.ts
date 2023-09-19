@@ -1,6 +1,7 @@
 import { GitHubHttpConfig } from '../../../../../../src/vendors/data-sources/github/interfaces/github-config.interface'
 import { GitHubRequestOptionsFactory } from '../../../../../../src/vendors/data-sources/github/http/github-request-options.factory'
-import { GITHUB_ACCESS_TOKEN, GITHUB_HTTP_CONFIG, HTTP_MODULE_OPTIONS } from '../../../../../__mocks__/github-request-options.factory.mock'
+import { GITHUB_ACCESS_TOKEN, HTTP_MODULE_OPTIONS } from '../../../../../__mocks__/github-request-options.factory.mock'
+import { GITHUB_HTTP_CONFIG } from '../../../../../__mocks__/github.service.mock'
 
 describe('GitHubRequestOptionsFactory', () => {
   const gitHubHttpConfig: GitHubHttpConfig = GITHUB_HTTP_CONFIG

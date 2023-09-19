@@ -1,10 +1,10 @@
 {
   "roots": ["./"],
   "coverageDirectory": "../coverage",
-  "collectCoverage": false,
+  "collectCoverage": true,
   "coveragePathIgnorePatterns": ["/node_modules/", "/dist", ".mock.ts", ".module.ts", ".dto.ts", ".entity.ts", ".response.ts", ".type.ts", "generate-swagger.ts", "main.ts", "config.ts", ".d.ts", ".enum.ts"],
   "moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json", "node"],
-  "rootDir": "test",
+  "rootDir": "./",
   "testRegex": ".test.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "@swc/jest"
