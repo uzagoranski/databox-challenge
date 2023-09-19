@@ -25,7 +25,7 @@ describe('AuthenticationService', () => {
   })
 
   describe('authenticateGitHubAccount', () => {
-    test('should be called using with no code parameter (1st step of OAuth2 flow)', async () => {
+    test('should be called with no code parameter (1st step of OAuth2 flow)', async () => {
       authenticateUser.mockReturnValue(null)
 
       const result = await authenticationService.authenticateGitHubAccount(res)
@@ -33,7 +33,7 @@ describe('AuthenticationService', () => {
       expect(result).toEqual(null)
     })
 
-    test('should be called using with code parameter (2nd step of OAuth2 flow)', async () => {
+    test('should be called with code parameter (2nd step of OAuth2 flow)', async () => {
       authenticateUser.mockReturnValue(AUTHENTICATION_ENTITY)
 
       const result = await authenticationService.authenticateGitHubAccount(res, code)
