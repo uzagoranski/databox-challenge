@@ -1,7 +1,7 @@
 {
   "name": "databox-challenge",
   "version": "1.0.0",
-  "description": "Databox Backend Engineer Challenge MS is an API to serve as a bridge between Databox API and 3rd party service providers (such as Facebook, Google Analytics etc.).",
+  "description": "Databox Backend Engineer Challenge MS is an API, serving as a bridge between Databox API and 3rd party service providers (such as Facebook, Google Analytics, GitHub etc.).",
   "author": "Uroš Zagoranski <urozag@gmail.com>",
   "private": true,
   "license": "UNLICENSED",

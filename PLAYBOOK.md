@@ -2,32 +2,40 @@
 
 # Databox Backend Engineer Challenge Playbook
 
-Info, related to development process is available in the README.md file. This file is specifically meant to answer the questions, asked in the Backend Engineer Challenge document and clarify some of the things that could be unclear.
+Info, related to development process is available in the README.md file. This file is specifically meant to answer the questions, asked in the Backend Engineer Challenge document and clarify some of the things that may be unclear.
 
 ## Architecture
 
 There was quite some research made when we were deciding what architecture approach to use. At the end, we decided to go with a
 modified "Clean Architecture" approach, where our project is structured in the following way:
-- `.husky` - pre-commit and pre-push hooks
-- `src` - the most relevant directories and files, implementing the core logic and functionalities
-  - `config` - all configuration files (typeorm, swagger, general config)
-  - `docs` - swagger factory and postman collection
-  - `libs` - internally used modules, mainly used for database-related code to completely separate the "repository" layer from the business logic
-    - `db/entities`
-    - `db/interfaces`
-    - `db/migrations`
-    - `db/services`
-    - `db/typeorm`
-    - that's where we'd potentially also include every other internally used service such as Redis for caching etc.
-  - `modules` - business logic modules, used to expose the endpoints and process the requests, map data into different formats etc.
-    - `manage` - main module, responsible for managing the core of our project - metrics
-    - `schedule` - scheduler module, responsible for scheduling the task of streamlining the metrics to Databox Push API
-  - `shared` - everything that doesn't belong anywhere else - shared components such as utility functions, shared interfaces/enums, helper functions and seeders
+- `.github` - Workspace settings such as GitHub Actions configuration for different workflows
+- `.husky` - Pre-commit and pre-push hooks
+- `src` - The most relevant directories and files, implementing the core logic and functionalities
+  - `config` - All configuration files (typeorm, swagger, general config)
+  - `docs` - Swagger factory and postman collection
+    - `postman` - Up-to-date Postman collection and environment for testing
+    - `swagger` - Swagger factory, responsible for automatically creating Swagger documentation from annotations, found in code
+  - `libs` - Internally used modules, mainly used for database-related code to completely separate the "repository" layer from the business logic
+    - `db/entities` - Every entity that exists in the scope of the current project
+    - `db/interfaces` - All interfaces, used on the database level and are not entities (i.e. filtering)
+    - `db/migrations` - Migration files that ensure the database instance is up-to-date and ready for querying
+    - `db/services` - Actual implementation of different services, responsible for writing, fetching and listing entity data
+    - `db/typeorm` - TypeORM instance creation to make it easy to use it wherever it's needed
+    - That's where we'd potentially also include every other internally used service such as Redis for caching etc.
+  - `modules` - Business logic modules, used to expose the endpoints and process the requests, map data into different formats etc.
+    - `authentication` - Authentication module, responsible for managing OAuth2 flow of the GitHub integration
+    - `manage` - Main module, responsible for managing the core of our project, metrics (fetching, storing etc.)
+    - `schedule` - Scheduler module, responsible for scheduling the task of streamlining the metrics to Databox Push API
+  - `shared` - Everything that doesn't belong anywhere else - shared components such as utility functions, shared interfaces/enums, helper functions and seeders
+    - `enums` - All enums that are used cross-module and don't belong into only one scope (i.e. libs)
+    - `interfaces` - All interfaces that are used cross-module and don't belong into only one scope (i.e. libs)
+    - `utils` - Utility functions, such as execution helpers and seeders that make the initialisation of the project as smooth as possible
   - `vendors` - 3rd party hub of integration services to make them completely decoupled and detached from business logic and internally used components. That module is split into different vendors and each one of them serves as an integration service to its API.
-    - `databox` - Databox API integration service, allowing us to update data via Databox Push API
-    - `github` - GitHub API, responsible for managing the OAuth2 flow and fetching relevant metrics, such as number of commits/pull requests etc.
-    - `coincap` - CoinCap API, handling the requests for Cryptocurrency related metrics, such as USD price of BTC/EHT etc.
-- `test` contains test files that ensure a proper coverage is reached and everything works as expected
+    - `databox` - Main Databox API integration service, allowing us to update data via Databox Push API
+    - `data-sources` - A common hub for all service providers we're fetching data from. Unlike `databox`, this is where data is collected from while the former is where data is pushed to.
+      - `github` - GitHub API, responsible for managing the OAuth2 flow and fetching relevant metrics, such as number of commits/pull requests etc.
+      - `coincap` - CoinCap API, handling the requests for Cryptocurrency related metrics, such as USD price of BTC/EHT etc.
+- `test` - Contains test files that ensure a proper coverage is reached and everything works as expected
   - Sub-folders follow the same structure as the one, described in the `src` explanation
 
 
@@ -80,8 +88,8 @@ machine with the service instance up and running, we wouldn't be able to reprodu
 To emphasise important things, we also used the NestJS integrated cron job mechanism that can be easily replaced with some kind of cloud-based scheduling 
 (event-driven) system, such as AWS Lambda or GCP Cloud Scheduler etc. that ensures cron jobs are executed regularly.
 
-It's also important to emphasise we've used GitHub Actions in the scope of this repository. Although we used it for a
-super simple task such as linting, it's a good indication of what can be done using the capabilities of GitHub built-in features.
+It's also important to emphasise we've used 2 tools that enforce quality of the committed/pushed code in the scope of this repository, Husky scripts and GitHub Actions. 
+Although we used these tools for super simple tasks such as linting and unit testing, it's a good indication of what can be done by using the capabilities of different built-in/external features.
 
 Last but not least, to achieve complete scalability, we could containerise our service by using some of the dedicated
 services for managing service orchestration, such as Kubernetes, Docker, Podman and similar. That way, we'd be able to use the 
