@@ -11,3 +11,11 @@ export const HTTP_MODULE_OPTIONS: HttpModuleOptions = {
     password: '',
   },
 }
+
+export const HTTP_MODULE_OPTIONS_MISSING_AUTH: HttpModuleOptions = {
+  headers: {
+    'User-Agent': 'databox-js/2.0.1',
+    'Content-Type': 'application/json',
+    Accept: 'application/vnd.databox.v2+json',
+  },
+}

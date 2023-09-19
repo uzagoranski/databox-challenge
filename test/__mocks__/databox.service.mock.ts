@@ -23,3 +23,9 @@ export const DATABOX_PUSH_MULTIPLE_METRICS_SUCCESS_RESPONSE: DataboxPushMultiple
   message: 'Successfully pushed 1 data entry!',
   id: '1259cb53-5274-4ac0-bf2d-0e337bd8a002',
 }
+
+export const DATABOX_PUSH_MULTIPLE_METRICS_ERRONEOUS_RESPONSE = {
+  message: 'Request failed with status code 401',
+  name: 'AxiosError',
+  code: 'ERR_BAD_REQUEST',
+}
