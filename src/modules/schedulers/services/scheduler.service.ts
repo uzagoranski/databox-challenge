@@ -8,7 +8,7 @@ import { ConfigService } from '@nestjs/config'
 export class SchedulerService {
   constructor(private readonly httpService: HttpService, private readonly configService: ConfigService) {}
 
-  readonly selfUrl: string = this.configService.get('SELF_URL', 'http://127.0.0.1:3000/api/databox-challenge')
+  readonly selfUrl: string = this.configService.get<string>('SELF_URL', 'http://127.0.0.1:3000/api/databox-challenge')
 
   // Cronjob will be executed every day at 23:59 local time
   @Cron('59 23 * * *')

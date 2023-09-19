@@ -29,7 +29,7 @@ modified "Clean Architecture" approach, where our project is structured in the f
   - `shared` - Everything that doesn't belong anywhere else - shared components such as utility functions, shared interfaces/enums, helper functions and seeders
     - `enums` - All enums that are used cross-module and don't belong into only one scope (i.e. libs)
     - `interfaces` - All interfaces that are used cross-module and don't belong into only one scope (i.e. libs)
-    - `utils` - Utility functions, such as execution helpers and seeders that make the initialisation of the project as smooth as possible
+    - `utils` - Utility functions, such as execution/batching helpers and seeders that make the initialisation of the project as smooth as possible
   - `vendors` - 3rd party hub of integration services to make them completely decoupled and detached from business logic and internally used components. That module is split into different vendors and each one of them serves as an integration service to its API.
     - `databox` - Main Databox API integration service, allowing us to update data via Databox Push API
     - `data-sources` - A common hub for all service providers we're fetching data from. Unlike `databox`, this is where data is collected from while the former is where data is pushed to.
@@ -52,8 +52,8 @@ A super short flow of the setup is available in this section of the document:
 7. Run `npm run seed` script to add some test data to your local database
 8. Run `npm run start:dev` to start the local server
 9. Play around with the API that's running on `http://localhost:3000/` by default. You can view the simple Swagger documentation by clicking on `http://localhost:3000/api`
-   1. If possible, start with GitHub API as it requires [OAuth2 flow](http://localhost:3000/api/databox-challenge/authentication/GitHub). In case you won't authenticate your GitHub account, the cron job, scheduled for 23:59 each day won't be able to successfully perform metrics update operation, hence dashboards in Databox platform won't reflect the real state.
-   2. Service also allows you to fetch, filter and sort the list of historically pushed data.
+   1. If possible, start with GitHub API Authentication as it follows the [OAuth2 flow](http://localhost:3000/api/databox-challenge/authentication/GitHub). In case you won't authenticate your GitHub account, the cron job, scheduled for 23:59 each day won't be able to successfully perform GitHub metrics update operation, hence dashboards in Databox platform won't reflect the real state
+   2. Service also allows you to fetch, filter and sort the list of historically pushed data
 10. When you're happy with the results, go to [pre-created dashboard](https://app.databox.com/datawall/e92939ee0b9635037b888d1aeb5d5e60145cbe865042b13) and check out the metrics we've pushed to the Databox API
 
 ## Notes
@@ -67,6 +67,10 @@ Adding new data sources is as easy as it gets. All you have to do is follow the 
 - Prepare an integration service that implements the `data-source.service.interface.ts` interface. That means it has to include 2 mandatory things: getMetrics function and serviceProvider property
 - Register your newly created integration service in the `data-source.module.ts` file by importing it at the top and adding it into providers & inject arrays (follow the example of the `GitHubService`)
 - After registering the integration service, everything else should happen automatically after calling the `/manage/metrics/sync` endpoint
+
+Last but not least, to avoid throttling on Databox Push API side in case of adding multiple registered service providers, we've implemented
+batching mechanism that waits a couple of seconds before calling the Push API again. That's why the `/sync` endpoint takes longer compared to the
+time, needed to actually fetch the data.
 
 ## Potential improvements
 

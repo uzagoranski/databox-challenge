@@ -68,6 +68,8 @@ Here you can find the complete list of ENV variables that the Databox Challenge 
 | PRINT_CURL_REQUESTS       | Enables printing curl requests                                                                                                         |
 | DATABOX_BASE_URL          | Url to which a connection will be made when calling Databox Push API                                                                   |
 | DATABOX_USER_AGENT        | User-agent header that will be sent along the requests when calling Databox Push API                                                   |
+| DATABOX_PUSH_INTERVAL     | Timeout between respective calls to Databox Push API to avoid throttling or overloading the API                                        |
+| DATABOX_ITEMS_PER_BATCH   | Number of external service providers that will be called per batch and push the metrics to Databox                                     |
 | GITHUB_BASE_URL           | Url to which a connection will be made when calling GitHub API                                                                         |
 | GITHUB_API_VERSION        | Target API version to fetch from when calling GitHub API                                                                               |
 | GITHUB_CLIENT_ID          | Client id of the GitHub application, created for this service                                                                          |
