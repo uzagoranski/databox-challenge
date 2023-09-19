@@ -14,6 +14,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Set up CEST timezone
+        uses: szenius/set-timezone@v1.2
+        with:
+          timezoneLinux: "CEST"
+
       - name: Check out Git repository
         uses: actions/checkout@v3
 
@@ -30,6 +35,3 @@ jobs:
 
       - name: Run tests
         run: npm run test:unit
-        uses: szenius/set-timezone@v1.2
-        with:
-          timezoneLinux: "CEST"
