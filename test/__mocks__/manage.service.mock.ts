@@ -10,7 +10,7 @@ import { ManageRequestDataResponse } from '../../src/modules/manage/responses/ma
 export const MANAGE_REQUEST_DATA_ENTITY: RequestDataEntity = {
   id: '942cc87b-5a75-4824-828a-9712723e89d2',
   serviceProvider: ServiceProvider.GITHUB,
-  timeOfSending: new Date('2022-03-21 07:56:20.114966'),
+  timeOfSending: new Date('2022-03-21 06:56:20.114966 UTC'),
   metricsSent: [{ key: 'GitHub_commits_since_yesterday', value: 5 }],
   numberOfKPIsSent: 1,
   successfulRequest: true,
