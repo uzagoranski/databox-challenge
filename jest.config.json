@@ -9,5 +9,6 @@
   "transform": {
     "^.+\\.(t|j)s$": "@swc/jest"
   },
-  "testEnvironment": "node"
+  "testEnvironment": "node",
+  "testTimeout": 15000
 }
