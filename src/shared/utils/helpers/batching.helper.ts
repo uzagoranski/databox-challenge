@@ -1,5 +1,5 @@
 export class BatchingHelper {
-  static getBatches<T>(array: Array<T>, itemsPerBatch: number): Array<Array<T>> {
+  static getBatches<T>(array: Array<T>, itemsPerBatch = 2): Array<Array<T>> {
     return array.reduce((resultArray, item, index) => {
       const batchIndex = Math.floor(index / itemsPerBatch)
 

@@ -67,7 +67,7 @@ export class ManageService {
       }))
 
       // This is where we'll wait a couple of seconds for Databox API to take a breather
-      await setTimeout(batchingInterval)
+      await setTimeout(batchingInterval || 5000)
 
       // If any of the calls would fail, we'd return null to the clients and that's not something we want, hence we'll filter out falsy values
       return responses.filter((data) => data)

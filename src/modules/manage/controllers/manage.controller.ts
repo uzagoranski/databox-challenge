@@ -23,7 +23,7 @@ export class ManageController {
   @ApiOperation({ summary: 'Fetches metrics from all providers (such as GitHub, CoinCap etc.)' })
   @ApiOkResponse({ description: 'Mapped data response, stored in the db', type: Array<ManageRequestDataResponse> })
   @ApiBadRequestResponse({ description: 'Bad request' })
-  async fetchAndStoreGitHubData(): Promise<ManageRequestDataResponse[]> {
+  async fetchAndStoreMetricsForAllVendors(): Promise<ManageRequestDataResponse[]> {
     return this.manageService.fetchAndStoreMetricsForAllVendors()
   }
 }
