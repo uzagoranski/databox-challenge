@@ -175,7 +175,7 @@ The naming convention used for the files follows the pattern `<name>.<type>.ts`,
 
 databox.module.ts
 databox.controller.ts
-github.service.ts
+databox.service.ts
 databox-session.entity.ts
 databox.dto.ts
 ```
